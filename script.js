@@ -115,15 +115,15 @@ let musicStarted = false;
 /* ============================================================
    LOADING SEQUENCE CONTENT
    ============================================================ */
-const titleText = "Loading Character Data...";
+const titleText = "Memory Recovery Protocol Initiated";
 
 const logs = [
     "> Subject identified: Aidyn.",
-    "> Character data recovered.",
-    "> Friendship database recovered.",
-    "> Restoring memories...",
-    "> Rebuilding status...",
-    "> Welcome back."
+    "> Status: ALIVE",
+    "> Memory Integrity: 12%",
+    "> Archive Scan Complete",
+    "> Recovered Fragments Found",
+    "> Beginning Restoration..."
 ];
 
 
