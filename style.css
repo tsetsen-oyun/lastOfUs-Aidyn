@@ -1,0 +1,689 @@
+:root {
+    --header-font: "Fjalla One", sans-serif;
+    --main-font: "Courier New", Courier, monospace;
+    --apocalyptic-color: rgb(211, 211, 211);
+    --roboto-font: "Roboto", sans-serif;
+    --terminal-font: "Bitcount Prop Single", system-ui;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--apocalyptic-color);
+    overflow: hidden;
+}
+
+/* -----------------------------
+   LOADING SCREEN
+------------------------------ */
+.loading-screen {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+
+    background-image: url("assets/background/bg-image.png");
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.loading-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.85) 0%,
+            rgba(0, 0, 0, 0.70) 35%,
+            rgba(0, 0, 0, 0.20) 100%
+        );
+}
+
+.heading,
+.sub-heading,
+.loading-footer {
+    position: relative;
+    z-index: 2;
+}
+
+.heading {
+    padding-left: 5rem;
+}
+
+h1 {
+    font-size: 5rem;
+    font-family: var(--header-font);
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.heading p {
+    margin-top: 1rem;
+    font-family: var(--main-font);
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.sub-heading {
+    padding-left: 5rem;
+    padding-top: 4rem;
+    font-family: var(--main-font);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#terminal p {
+    margin-bottom: 0.75rem;
+}
+
+.loading-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.loading-percent {
+    padding-right: 40px;
+    font-family: var(--main-font);
+    font-size: 0.8rem;
+    font-weight: 100;
+    color: rgba(255, 255, 255, 0.65);
+    text-align: right;
+}
+
+.hidden-button {
+    opacity: 0 !important;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.show-button {
+    opacity: 0.65 !important;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+#skip-btn {
+    align-self: center;
+    background: none;
+    border: none;
+    padding: 0;
+
+    color: lightgray;
+    font-family: var(--roboto-font);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+    opacity: 0.55;
+
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    animation: pulse 1.8s infinite;
+}
+
+#skip-btn:hover {
+    opacity: 1;
+    transform: translateX(6px);
+}
+
+.cursor {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* -----------------------------
+   CHARACTER SCREEN
+------------------------------ */
+#character-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+
+    background-image: url("assets/background/aidyn-character-screen.jpg");
+    background-size: cover;
+    background-position: center;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity 1.5s ease, visibility 1.5s ease;
+}
+
+#character-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.character-ui {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 50px 70px;
+    color: white;
+}
+
+.left-panel h2 {
+    font-family: var(--header-font);
+    margin-bottom: 50px;
+    font-size: 2rem;
+}
+
+.left-panel ul {
+    list-style: none;
+    padding-bottom: 50px;
+}
+
+.left-panel li {
+    margin-bottom: 18px;
+    font-family: var(--roboto-font);
+    font-weight: 300;
+    font-size: 1.3rem;
+    opacity: 0.5;
+    color: white;
+}
+
+.left-panel .active {
+    opacity: 1;
+    color: white;
+}
+
+.left-panel p{
+    margin-bottom: 18px;
+    font-family: var(--roboto-font);
+    font-weight: 300;
+    font-size: 0.8rem;
+    opacity: 1;
+    color: white;
+}
+
+.right-panel {
+    text-align: right;
+    padding-top: 200px;
+}
+
+.right-panel h3 {
+    font-family: var(--header-font);
+    color: white;
+    margin-top: 25px;
+}
+
+.right-panel p {
+    font-size: 0.8rem;
+    color: white;
+    font-family: var(--roboto-font);
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+.bottom-controls {
+    position: absolute;
+    bottom: 40px;
+    right: 60px;
+}
+
+#next-btn,
+#back-btn {
+    background: none;
+    border: none;
+    color: lightgray;
+    cursor: pointer;
+    opacity: 0.65;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    animation: pulse 1.8s infinite;
+}
+
+#next-btn {
+    font-family: var(--roboto-font);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+}
+
+#next-btn:hover {
+    opacity: 1;
+    transform: translateX(8px);
+}
+
+/* -----------------------------
+   NAVIGATION SCREEN
+------------------------------ */
+#navigation-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+
+    background-image: url("assets/background/mouse-click.mp3");
+    background-size: cover;
+    background-position: center;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+.show-navigation {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.navigation-overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-left: 8rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(0,0,0,.92),
+        rgba(0,0,0,.65),
+        rgba(0,0,0,.25)
+    );
+}
+
+.navigation-overlay h1 {
+    font-family: var(--terminal-font);
+    color: rgb(84, 255, 32);
+    font-size: 4rem;
+    margin-bottom: 3rem;
+}
+
+.nav-item {
+    font-family: var(--terminal-font);
+    font-weight: 300;
+    display: block;
+
+    background: none;
+    border: none;
+    color: rgb(84, 255, 32);
+
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+
+    text-align: left;
+    cursor: pointer;
+
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-item:hover {
+    opacity: 1;
+    transform: translateX(15px);
+}
+
+/* Back button */
+#back-btn {
+    position: absolute;
+    left: 60px;
+    bottom: 40px;
+    font-family: var(--roboto-font);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+}
+
+#back-btn:hover {
+    opacity: 1;
+    transform: translateX(-8px);
+}
+
+/* -----------------------------
+   TRANSITIONS
+------------------------------ */
+#loading-screen {
+    transition: opacity 1.5s ease, visibility 1.5s ease;
+}
+
+.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.show-character {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+#fade-black {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+
+    background: black;
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 1s ease;
+}
+
+.black {
+    opacity: 1 !important;
+}
+
+/* Shared pulse animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   MODULE LOADER
+   Fullscreen overlay with a typing animation, shown briefly
+   while an archive module opens or closes.
+======================================== */
+#module-loader {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+
+    background: black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: 0.5s ease;
+
+    z-index: 2000;
+}
+
+#module-loader.active {
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+}
+
+#module-terminal {
+    font-family: var(--terminal-font);
+    color: rgb(84, 255, 32);
+    font-size: 1.2rem;
+    text-align: center;
+    line-height: 2;
+}
+
+/* ========================================
+   SHARED ARCHIVE MODULE STYLES
+   Used by the Stats, Artifacts, Letter, and Secret File
+   modules below.
+======================================== */
+.show-module {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.module-back {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+
+    background: none;
+    border: none;
+
+    color: rgb(84, 255, 32);
+    font-family: var(--terminal-font);
+    font-size: 1rem;
+
+    cursor: pointer;
+}
+
+.module-back:hover {
+    opacity: 0.8;
+}
+
+/* ========================================
+   STATS MODULE
+======================================== */
+#stats-module {
+    position: fixed;
+    inset: 0;
+    background: black;
+    color: rgb(84, 255, 32);
+    font-family: var(--terminal-font);
+    padding: 80px;
+    z-index: 3000;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.stats-container {
+    max-width: 900px;
+}
+
+.stats-container h1 {
+    margin-bottom: 40px;
+    color: rgb(84, 255, 32);
+}
+
+.stat {
+    margin-bottom: 25px;
+}
+
+.bar {
+    margin-top: 5px;
+    color: rgb(84, 255, 32);
+}
+
+.stats-container p {
+    margin-top: 60px;
+    line-height: 1.8;
+}
+
+/* ========================================
+   ARTIFACTS MODULE
+======================================== */
+#artifacts-module {
+    position: fixed;
+    inset: 0;
+    background: black;
+    color: rgb(84, 255, 32);
+    font-family: var(--terminal-font);
+    padding: 80px;
+    z-index: 3000;
+
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.artifacts-container {
+    column-count: 3;
+    column-gap: 20px;
+    max-width: 1400px;
+    margin: 40px auto;
+}
+
+.artifacts-container > div {
+    break-inside: avoid;
+    margin-bottom: 20px;
+}
+
+.artifacts-container img {
+    width: 100%;
+    display: block;
+    border: 1px solid rgba(84,255,32,.3);
+}
+
+
+/* ========================================
+   LETTER MODULE
+======================================== */
+#letter-module {
+    position: fixed;
+    inset: 0;
+    background: black;
+    color: rgb(84, 255, 32);
+    font-family: var(--terminal-font);
+    padding: 80px;
+    z-index: 3000;
+
+    width: 100%;
+    height: 100vh;
+    background-image: url("assets/background/letter.jpg");
+    background-size: cover;
+
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* ========================================
+   SECRET FILE MODULE
+======================================== */
+#file-module {
+    position: fixed;
+    inset: 0;
+    background: black;
+    color: rgb(84, 255, 32);
+    font-family: var(--terminal-font);
+    padding: 80px;
+    z-index: 3000;
+
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.file-container {
+    display: flex;
+    gap: 40px;
+    margin-top: 80px;
+    flex-wrap: wrap;
+}
+
+.music-file {
+    width: 160px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.music-file:hover {
+    transform: scale(1.05);
+}
+
+.playing {
+    outline: 3px solid rgb(84, 255, 32);
+    box-shadow: 0 0 20px rgb(84, 255, 32);
+}
+
+/* ========================================
+   MEMORIES MODULE
+======================================== */
+
+#memories-module {
+    position: fixed;
+    inset: 0;
+    background: black;
+    color: rgb(84, 255, 32);
+    font-family: var(--terminal-font);
+    padding: 80px;
+    z-index: 3000;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.memory-subtitle {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    opacity: 0.7;
+}
+
+.memory-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 50px;
+    height: 70vh;
+}
+
+.memory-list {
+    border: 1px solid rgb(84, 255, 32);
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.memory-record {
+    display: block;
+    width: 100%;
+
+    background: none;
+    border: none;
+
+    color: rgb(84, 255, 32);
+    font-family: var(--terminal-font);
+    text-align: left;
+
+    padding: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.memory-record:hover {
+    background: rgba(84, 255, 32, 0.1);
+}
+
+.memory-record.active {
+    background: rgba(84, 255, 32, 0.2);
+}
+
+.memory-viewer {
+    border: 1px solid rgb(84, 255, 32);
+    padding: 30px;
+    overflow-y: auto;
+}
+
+#memory-author {
+    margin-bottom: 30px;
+}
+
+#memory-content {
+    line-height: 2;
+    white-space: pre-wrap;
+}

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aidyn</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Cutive+Mono&family=Fjalla+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Loading screen -->
+    <section class="loading-screen" id="loading-screen">
+        <div class="heading">
+            <h1>WELCOME BACK</h1>
+            <p id="loading-text"></p>
+        </div>
+
+        <div class="sub-heading" id="terminal"></div>
+
+        <div class="loading-footer">
+            <div class="loading-percent" id="loading-percent">
+                Loading Character Data: 0%
+            </div>
+
+            <button id="skip-btn" class="hidden-button" type="button">
+                SKIP
+            </button>
+        </div>
+
+    </section>
+
+    <!-- Character screen -->
+    <section id="character-screen" aria-hidden="true">
+        <div class="character-ui">
+            <div class="left-panel">
+                <h2>CHARACTER SELECT</h2>
+
+                <ul>
+                    <li class="active">AIDYN</li>
+                    <li>DINA</li>
+                    <li>JESSE</li>
+                    <li>TOMMY</li>
+                    <li>JOEL</li>
+                </ul>
+
+                <h2>CHALLENGE</h2>
+
+                <p>The outbreak took many things. <br><br>
+                    Cities.<br>
+                    Homes.<br>
+                    Entire histories.<br><br>
+                    What remains of your story has been scattered across abandoned archives.<br>
+                    Recovered photographs, music recordings, journal entries, and witness <br>
+                    reports suggest that you were once an important member of a community.<br>
+                </p>
+                <p>
+                    Your task is simple: <br><br>
+                    Recover the missing fragments. <br>
+                    Remember who you were. <br>
+                    And discover why so many people were glad you survived another year. <br>
+                </p>
+            </div>
+
+            <div class="right-panel">
+                <h3>INVENTORY</h3>
+
+                <svg style="opacity: 0.8" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path d="M15.825.12a.5.5 0 0 1 .132.584c-1.53 3.43-4.743 8.17-7.095 10.64a6.1 6.1 0 0 1-2.373 1.534c-.018.227-.06.538-.16.868-.201.659-.667 1.479-1.708 1.74a8.1 8.1 0 0 1-3.078.132 4 4 0 0 1-.562-.135 1.4 1.4 0 0 1-.466-.247.7.7 0 0 1-.204-.288.62.62 0 0 1 .004-.443c.095-.245.316-.38.461-.452.394-.197.625-.453.867-.826.095-.144.184-.297.287-.472l.117-.198c.151-.255.326-.54.546-.848.528-.739 1.201-.925 1.746-.896q.19.012.348.048c.062-.172.142-.38.238-.608.261-.619.658-1.419 1.187-2.069 2.176-2.67 6.18-6.206 9.117-8.104a.5.5 0 0 1 .596.04"/>
+                </svg>
+
+                <h3>PLAYSTYLE</h3>
+                <p>BALANCED</p>
+
+                <h3>TRAITS</h3>
+                <p>Loyal</p>
+                <p>Artistic</p>
+                <p>Deep thinker</p>
+            </div>
+
+            <div class="bottom-controls">
+                <button id="next-btn" class="hidden-button" type="button">
+                    NEXT →
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Black transition overlay -->
+    <div id="fade-black" aria-hidden="true"></div>
+
+    <div id="module-loader">
+        <div id="module-terminal"></div>
+    </div>
+
+    <!-- Navigation screen -->
+    <section id="navigation-screen" aria-hidden="true">
+        <div class="navigation-overlay">
+            <button id="back-btn" class="hidden-button" type="button">
+                ← BACK
+            </button>
+
+            <h1>AIDYN'S ARCHIVE</h1>
+
+            <nav aria-label="Archive navigation">
+                <button id="stats-btn" class="nav-item" type="button">STATS.TXT</button>
+                <button id="artifacts-btn" class="nav-item" type="button">LOST_ARTIFACTS.EXE</button>
+                <button id="letter-btn" class="nav-item" type="button">LETTER.TXT</button>
+                <button id="file-btn" class="nav-item" type="button">SECRET_FILE.ENC</button>
+                <button id="memories-btn" class="nav-item" type="button">MEMORIES.EXE</button>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Stats module -->
+    <section id="stats-module">
+
+        <button id="stats-back-btn" class="module-back">
+            ← RETURN TO ARCHIVE
+        </button>
+
+        <div class="stats-container">
+
+            <h1>STATS.TXT</h1>
+
+            <div class="stats-content">
+
+                <div class="stat">
+                    <span>CREATIVITY</span>
+                    <div class="bar">██████████ 100</div>
+                </div>
+
+                <div class="stat">
+                    <span>CHARISMA</span>
+                    <div class="bar">██████████ 100</div>
+                </div>
+
+                <div class="stat">
+                    <span>CURIOSITY</span>
+                    <div class="bar">██████████ 100</div>
+                </div>
+
+                <div class="stat">
+                    <span>FUN</span>
+                    <div class="bar">██████████ 100</div>
+                </div>
+
+            </div>
+
+            <p>
+
+                --------------------------------<br><br>
+
+                SYSTEM NOTES<br><br>
+
+                Subject survived the apocalypse.<br><br>
+
+                Archive integrity: 100%<br><br>
+
+                Recommendation:<br>
+                Keep around for another year.
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- Lost artifacts -->
+    <section id="artifacts-module">
+        <button id="artifacts-back-btn" class="module-back">
+            ← RETURN TO ARCHIVE
+        </button>
+
+        <div class="artifacts-container">
+            <div class="artifact">
+                <img src="artifacts/1.jpeg">
+            </div>
+            <div class="artifact">
+                <img src="artifacts/2.jpeg">
+            </div>
+            <div class="artifact">
+                <img src="artifacts/3.jpeg">
+            </div>
+            <div class="artifact">
+                <img src="artifacts/4.jpeg">
+            </div>
+            <div class="artifact">
+                <img src="artifacts/5.jpeg">
+            </div>
+            <div class="artifact">
+                <img src="artifacts/6.jpeg">
+            </div>
+            <div class="artifact">
+                <img src="artifacts/7.jpeg">
+            </div>
+            <div class="artifact">
+                <img src="artifacts/8.jpeg">
+            </div>
+            <div class="artifact">
+                <img src="artifacts/9.jpeg">
+            </div>
+            <div class="artifact">
+                <img src="artifacts/10.jpeg">
+            </div>
+        </div>
+    </section>
+
+    <!-- Letter -->
+    <section id="letter-module">
+        <button id="letter-back-btn" class="module-back">
+            ← RETURN TO ARCHIVE
+        </button>
+    </section>
+
+    <!-- Secret File -->
+    <section id="file-module">
+        <button id="file-back-btn" class="module-back">
+            ← RETURN TO ARCHIVE
+        </button>
+
+        <h1>SECRET_FILE.ENC</h1>
+
+        <p>
+            Decryption successful.
+            5 audio recordings recovered.
+        </p>
+
+        <div class="file-container">
+            <div>
+                <img class="music-file" src="assets/cassette/cassette1.png" data-song="assets/music/song1.mp3">
+                <p>REC_001.mp3</p>
+            </div>
+            <div>
+                <img class="music-file" src="assets/cassette/cassette2.png" data-song="assets/music/song2.mp3">
+                <p>REC_002.mp3</p>
+            </div>
+            <div>
+                <img class="music-file" src="assets/cassette/cassette3.png" data-song="assets/music/song3.mp3">
+                <p>REC_003.mp3</p>
+            </div>
+            <div>
+                <img class="music-file" src="assets/cassette/cassette4.png" data-song="assets/music/song4.mp3">
+                <p>REC_004.mp3</p>
+            </div>
+            <div>
+                <img class="music-file" src="assets/cassette/cassette5.png" data-song="assets/music/song5.mp3">
+                <p>REC_005.mp3</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Memories -->
+    <section id="memories-module">
+
+        <button id="memories-back-btn" class="module-back">
+            ← RETURN TO ARCHIVE
+        </button>
+
+        <h1>MEMORIES.EXE</h1>
+
+        <p class="memory-subtitle">
+            RECOVERED MEMORY RECORDS: 10
+        </p>
+
+        <div class="memory-layout">
+            <div class="memory-list">
+
+                <button class="memory-record active"
+                    data-author="Shathe"
+                    data-memory="We were supposed to study for an exam, but somehow ended up talking for six hours straight about everything except studying. I still remember laughing so hard my stomach hurt.">
+                    MEMORY_001.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Akniet"
+                    data-memory="One of my favourite memories is when we got completely lost and somehow turned it into the best day ever.">
+                    MEMORY_002.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Dariga"
+                    data-memory="You always managed to make boring situations fun. That's probably what I remember most.">
+                    MEMORY_003.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Karimene"
+                    data-memory="I still remember that late-night conversation that somehow changed my entire perspective on life.">
+                    MEMORY_004.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Zoey"
+                    data-memory="You were the first person I called whenever something good happened.">
+                    MEMORY_005.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Salma"
+                    data-memory="I don't think I've ever met someone who could make people feel as comfortable as you do.">
+                    MEMORY_006.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Amina"
+                    data-memory="I still laugh whenever I remember that ridiculous road trip.">
+                    MEMORY_007.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Malika"
+                    data-memory="Somehow every random hangout became a core memory.">
+                    MEMORY_008.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Oyuka"
+                    data-memory="You have a weird talent for turning ordinary moments into unforgettable ones.">
+                    MEMORY_009.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Momo"
+                    data-memory="If you're reading this, happy birthday. Thank you for being part of so many people's favourite memories.">
+                    MEMORY_010.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Daniya"
+                    data-memory="My favorite memory is the first time I met Aidyn , when we met in person. I was very excited to see her, we originally planned to go to sunway, but then I randomly said that I hadn't been to Batu caves, and we went to Batu caves. It was very funny and unexpected to me that she supported my idea so simply and immediately we implemented it. Then the weather was bad on batu caves, rain and slush, we wanted to see the monkeys, but we didn't see them, BUT instead we saw a rooster and chickens there aahah. She helped me up the stairs because it was very slippery, and we took photos with my digital camera. After that, we took the women's subway home late at night. It was our FIRST meeting , and a really fun day!">
+                    MEMORY_011.LOG
+                </button>
+
+                <button class="memory-record"
+                    data-author="Amina"
+                    data-memory="If you're reading this, happy birthday. Thank you for being part of so many people's favourite memories.">
+                    MEMORY_012.LOG
+                </button>
+            </div>
+
+            <div class="memory-viewer">
+
+                <h2 id="memory-author">AUTHOR IDENTIFIED: JESS</h2>
+
+                <p id="memory-content">
+                    We were supposed to study for an exam, but somehow ended up talking for six hours straight about everything except studying. I still remember laughing so hard my stomach hurt.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <audio id="bg-music" loop>
+        <source src="assets/background/audio/background.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="click-sound" preload="auto">
+        <source src="assets/background/audio/mouse-click.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
