@@ -110,7 +110,7 @@
     <section id="navigation-screen" aria-hidden="true">
         <div class="navigation-overlay">
             <button id="back-btn" class="hidden-button" type="button">
-                ← BACK
+                ← CHARACTER SCREEN
             </button>
 
             <h1>AIDYN'S ARCHIVE</h1>
@@ -118,9 +118,9 @@
             <nav aria-label="Archive navigation">
                 <button id="stats-btn" class="nav-item" type="button">STATS.TXT</button>
                 <button id="artifacts-btn" class="nav-item" type="button">LOST_ARTIFACTS.EXE</button>
-                <button id="letter-btn" class="nav-item" type="button">LETTER.TXT</button>
                 <button id="file-btn" class="nav-item" type="button">SECRET_FILE.ENC</button>
                 <button id="memories-btn" class="nav-item" type="button">MEMORIES.EXE</button>
+                <button id="letter-btn" class="nav-item" type="button">LETTER.TXT</button>
             </nav>
         </div>
     </section>
@@ -176,11 +176,15 @@
             </p>
 
         </div>
-
+        
+        <div class="mugshot-container">
+            <img src="assets/mugshot.jpg">
+        </div>
     </section>
 
     <!-- Lost artifacts -->
     <section id="artifacts-module">
+
         <button id="artifacts-back-btn" class="module-back">
             ← RETURN TO ARCHIVE
         </button>
@@ -221,6 +225,10 @@
 
     <!-- Secret File -->
     <section id="file-module">
+        <video id="secret-video" muted loop playsinline>
+            <source src="assets/background/secret_file.mp4" type="video/mp4">
+        </video>
+
         <button id="file-back-btn" class="module-back">
             ← RETURN TO ARCHIVE
         </button>

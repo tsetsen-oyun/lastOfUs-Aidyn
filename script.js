@@ -45,15 +45,11 @@ const artifactsModule = document.getElementById("artifacts-module");
 const artifactsBtn = document.getElementById("artifacts-btn");
 const artifactsBackBtn = document.getElementById("artifacts-back-btn");
 
-// LETTER module
-const letterModule = document.getElementById("letter-module");
-const letterBtn = document.getElementById("letter-btn");
-const letterBackBtn = document.getElementById("letter-back-btn");
-
 // SECRET FILE module
 const fileModule = document.getElementById("file-module");
 const fileBtn = document.getElementById("file-btn");
 const fileBackBtn = document.getElementById("file-back-btn");
+const secretVideo = document.getElementById("secret-video");
 
 // MEMORIES module
 const memoriesModule = document.getElementById("memories-module");
@@ -64,6 +60,11 @@ const memoriesBackBtn = document.getElementById("memories-back-btn");
 const memoryRecords = document.querySelectorAll(".memory-record");
 const memoryAuthor = document.getElementById("memory-author");
 const memoryContent = document.getElementById("memory-content");
+
+// LETTER module
+const letterModule = document.getElementById("letter-module");
+const letterBtn = document.getElementById("letter-btn");
+const letterBackBtn = document.getElementById("letter-back-btn");
 
 // Shared "loading" overlay shown while a module opens/closes
 const moduleLoader = document.getElementById("module-loader");
@@ -90,9 +91,19 @@ musicFiles.forEach(file => {
         secretPlayer = new Audio(song);
         secretPlayer.volume = 0.5;
         secretPlayer.play();
-    });
-});
 
+        // Pause the background music while a recording is playing
+        if (!bgMusic.paused) {
+            bgMusic.pause();
+        }
+
+        // VIDEO STARTS
+        secretVideo.currentTime = 0;
+        secretVideo.play();
+        secretVideo.classList.add("active");
+    });
+
+});
 /**
  * Stops and rewinds whatever cassette is currently playing.
  * Called when leaving the Secret File module so audio doesn't
@@ -280,6 +291,9 @@ async function showCharacterScreen() {
    by the skip button (loadingCancelled).
    ============================================================ */
 async function startLoadingSequence() {
+    // Give the user a way to skip the typing animation
+    setTimeout(() => revealButton(skipBtn), 1000);
+
     const totalCharacters =
         titleText.length +
         logs.reduce((sum, line) => sum + line.length, 0);
@@ -506,13 +520,26 @@ fileBtn.addEventListener("click", async () => {
 
 fileBackBtn.addEventListener("click", async () => {
 
+    // secretPlayer.pause();
+    // secretPlayer.currentTime = 0;
+    secretVideo.pause();
+    secretVideo.currentTime = 0;
+    secretVideo.classList.remove(
+        "active"
+    );
+
     stopSecretAudio();
+
+    // Resume background music once the recording stops
+    if (musicStarted && bgMusic.paused) {
+        bgMusic.play();
+    }
+
     await closeArchiveModule(fileModule, [
         "> CLOSING SECRET_FILE.ENC",
         "> RETURNING TO ARCHIVE..."
     ]);
 });
-
 
 /* ============================================================
    MEMORIES MODULE EVENTS
