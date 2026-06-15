@@ -40,6 +40,11 @@ const statsModule = document.getElementById("stats-module");
 const statsBtn = document.getElementById("stats-btn");
 const statsBackBtn = document.getElementById("stats-back-btn");
 
+const statsSubtitleIntro = document.getElementById("stats-subtitle-intro");
+const statsSubtitleOutro = document.getElementById("stats-subtitle-outro");
+const statsIntroText = "Recovered personality profile.\nGenerated before memory corruption.";
+const statsOutroText = "Memory Fragment Recovered.\nMemory Integrity Increased.";
+
 // ARTIFACTS module
 const artifactsModule = document.getElementById("artifacts-module");
 const artifactsBtn = document.getElementById("artifacts-btn");
@@ -210,6 +215,20 @@ function revealButton(button) {
     setTimeout(() => {
         button.classList.add("show-button");
     }, 50);
+}
+
+/**
+ * Types text into a subtitle element one character at a time.
+ * "\n" in the source string becomes a real line break, since
+ * .stats-subtitle uses white-space: pre-line.
+ */
+async function typeSubtitle(element, text, speed = 25) {
+    element.textContent = "";
+
+    for (let i = 0; i < text.length; i++) {
+        element.textContent += text[i];
+        await sleep(speed);
+    }
 }
 
 /**
@@ -454,20 +473,32 @@ async function closeArchiveModule(moduleElement, closingLines) {
    STATS MODULE EVENTS
    ============================================================ */
 statsBtn.addEventListener("click", async () => {
+    // Reset subtitles each time the module is (re)opened
+    statsSubtitleIntro.textContent = "";
+    statsSubtitleOutro.textContent = "";
+
     await openArchiveModule(statsModule, [
         "> OPENING STATS.TXT",
         "> READING CHARACTER DATA...",
         "> PROFILE LOADED"
     ]);
+
+    // Type out the intro subtitle now that the module is visible
+    typeSubtitle(statsSubtitleIntro, statsIntroText);
 });
 
 statsBackBtn.addEventListener("click", async () => {
+    // Hide the intro subtitle, then reveal the outro subtitle
+    // before leaving the module
+    statsSubtitleIntro.textContent = "";
+    await typeSubtitle(statsSubtitleOutro, statsOutroText);
+    await sleep(600);
+
     await closeArchiveModule(statsModule, [
         "> CLOSING STATS.TXT",
         "> RETURNING TO ARCHIVE..."
     ]);
 });
-
 
 /* ============================================================
    ARTIFACTS MODULE EVENTS
