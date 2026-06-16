@@ -21,6 +21,20 @@ const skipBtn = document.getElementById("skip-btn");
    ============================================================ */
 const characterScreen = document.getElementById("character-screen");
 const navigationScreen = document.getElementById("navigation-screen");
+
+const navigationSubtitleIntro1 = document.getElementById("navigation-subtitle-intro1");
+const navigationSubtitleIntro2 = document.getElementById("navigation-subtitle-intro2");
+const navigationSubtitleOutro1 = document.getElementById("navigation-subtitle-outro1");
+const navigationSubtitleOutro2 = document.getElementById("navigation-subtitle-outro2");
+const navigationSubtitleOutr3 = document.getElementById("navigation-subtitle-outro3");
+const navigationSubtitleOutr4 = document.getElementById("navigation-subtitle-outro4");
+const navigationIntroText1 = "The following files were salvaged from the remains of the old world.\nEach file may contain fragments of your missing memories.";
+const navigationIntroText2 = "Review all available records to maximize recovery success.\nCurrent Memory Integrity: 12%";
+const navigationOutroText1 = "Subject Identity Restored. Archive Integrity: 100%\nReviewing recovered records...";
+const navigationOutroText2 = "Analysis Complete. The recovered records indicate that: \nSubject formed meaningful connections with numerous individuals.\nSubject demonstrated exceptional creativity.\nSubject consistently improved the lives of those around her.\nSubject's presence was valued.";
+const navigationOutroText3 = "Additional note discovered. Source: Unknown.\n\"Whenever you begin to doubt yourself, return to this archive.";
+const navigationOutroText4 = "Welcome back, Aidyn. Memory recovery complete.\n Happy Birthday;)";
+
 const fadeBlack = document.getElementById("fade-black");
 
 const nextBtn = document.getElementById("next-btn");
@@ -50,11 +64,22 @@ const artifactsModule = document.getElementById("artifacts-module");
 const artifactsBtn = document.getElementById("artifacts-btn");
 const artifactsBackBtn = document.getElementById("artifacts-back-btn");
 
+const artifactsSubtitleIntro = document.getElementById("artifacts-subtitle-intro");
+const artifactsSubtitleOutro = document.getElementById("artifacts-subtitle-outro");
+const artifactsIntroText = "The subject appears to have expressed herself through visual media.\nReviewing these artifacts may assist identity reconstruction.";
+const artifactsOutroText = "Additional identity markers recovered.\nMemory Integrity Increased.";
+
+
 // SECRET FILE module
 const fileModule = document.getElementById("file-module");
 const fileBtn = document.getElementById("file-btn");
 const fileBackBtn = document.getElementById("file-back-btn");
 const secretVideo = document.getElementById("secret-video");
+
+const fileSubtitleIntro = document.getElementById("file-subtitle-intro");
+const fileSubtitleOutro = document.getElementById("file-subtitle-outro");
+const fileIntroText = "The subject returned to these files repeatedly.\nReason unknown.";
+const fileOutroText = "Preference data recovered. The subject loved these songs.\nThe reasons may be forgotten but the feelings remain.\nMemory Fragment Recovered.";
 
 // MEMORIES module
 const memoriesModule = document.getElementById("memories-module");
@@ -66,10 +91,20 @@ const memoryRecords = document.querySelectorAll(".memory-record");
 const memoryAuthor = document.getElementById("memory-author");
 const memoryContent = document.getElementById("memory-content");
 
+const memoriesSubtitleIntro = document.getElementById("memories-subtitle-intro");
+const memoriesSubtitleOutro = document.getElementById("memories-subtitle-outro");
+const memoriesIntroText = "Witness testimonies recovered. Memory corruption prevented direct access to many events\nFortunately, the people who experienced those moments still remember.\n Reviewing these records may assist recovery.";
+const memoriesOutroText = "MAnalysis complete. A consistent pattern was detected.:\n The subject was valued. The subject was remembered. The subject was loved.\n Memory Integrity Increased.";
+
 // LETTER module
 const letterModule = document.getElementById("letter-module");
 const letterBtn = document.getElementById("letter-btn");
 const letterBackBtn = document.getElementById("letter-back-btn");
+
+const letterSubtitleIntro = document.getElementById("letter-subtitle-intro");
+const letterSubtitleOutro = document.getElementById("letter-subtitle-outro");
+const letterIntroText = "This file was written directly to the subject. Sender identified: Oyuka\nReview recommended.";
+const letterOutroText = "Message archived successfully.Emotional markers detected.\nMemory Fragment Recovered.";
 
 // Shared "loading" overlay shown while a module opens/closes
 const moduleLoader = document.getElementById("module-loader");
@@ -375,12 +410,28 @@ skipBtn.addEventListener("click", async () => {
 nextBtn.addEventListener("click", async () => {
     if (isTransitioning) return;
 
+    navigationSubtitleIntro1.textContent = "";
+    navigationSubtitleIntro2.textContent = "";
+
+    navigationSubtitleOutro1.textContent = "";
+    navigationSubtitleOutro2.textContent = "";
+    navigationSubtitleOutro3.textContent = "";
+    navigationSubtitleOutro4.textContent = "";
+
     await transitionScreens(
         characterScreen,
         "show-character",
         navigationScreen,
         "show-navigation"
     );
+
+    typeSubtitle(navigationSubtitleIntro1, navigationIntroText1);
+
+    navigationSubtitleIntro1.textContent = "";
+    await typeSubtitle(artifactsSubtitleOutro, artifactsOutroText);
+    await sleep(600);
+
+    typeSubtitle(artifactsSubtitleIntro2, artifactsIntroText2);
 
     backBtn.classList.remove("show-button");
     backBtn.classList.add("hidden-button");
@@ -389,6 +440,33 @@ nextBtn.addEventListener("click", async () => {
         revealButton(backBtn);
     }, 3000);
 });
+
+artifactsBtn.addEventListener("click", async () => {
+
+    artifactsSubtitleIntro.textContent = "";
+    artifactsSubtitleOutro.textContent = "";
+
+    await openArchiveModule(artifactsModule, [
+        "> OPENING LOST_ARTIFACTS.EXE",
+        "> SCANNING ARCHIVES...",
+        "> RECOVERING IMAGES..."
+    ]);
+
+    typeSubtitle(artifactsSubtitleIntro, artifactsIntroText);
+});
+
+artifactsBackBtn.addEventListener("click", async () => {
+
+    statsSubtitleIntro.textContent = "";
+    await typeSubtitle(artifactsSubtitleOutro, artifactsOutroText);
+    await sleep(600);
+
+    await closeArchiveModule(artifactsModule, [
+        "> CLOSING LOST_ARTIFACTS.EXE",
+        "> RETURNING TO ARCHIVE..."
+    ]);
+});
+
 
 // Back button: navigation screen -> character screen
 backBtn.addEventListener("click", async () => {
@@ -504,14 +582,25 @@ statsBackBtn.addEventListener("click", async () => {
    ARTIFACTS MODULE EVENTS
    ============================================================ */
 artifactsBtn.addEventListener("click", async () => {
+
+    artifactsSubtitleIntro.textContent = "";
+    artifactsSubtitleOutro.textContent = "";
+
     await openArchiveModule(artifactsModule, [
         "> OPENING LOST_ARTIFACTS.EXE",
         "> SCANNING ARCHIVES...",
         "> RECOVERING IMAGES..."
     ]);
+
+    typeSubtitle(artifactsSubtitleIntro, artifactsIntroText);
 });
 
 artifactsBackBtn.addEventListener("click", async () => {
+
+    statsSubtitleIntro.textContent = "";
+    await typeSubtitle(artifactsSubtitleOutro, artifactsOutroText);
+    await sleep(600);
+
     await closeArchiveModule(artifactsModule, [
         "> CLOSING LOST_ARTIFACTS.EXE",
         "> RETURNING TO ARCHIVE..."
@@ -523,18 +612,70 @@ artifactsBackBtn.addEventListener("click", async () => {
    LETTER MODULE EVENTS
    ============================================================ */
 letterBtn.addEventListener("click", async () => {
+
+    letterSubtitleIntro.textContent = "";
+    letterSubtitleOutro.textContent = "";
+
     await openArchiveModule(letterModule, [
         "> OPENING LETTER.TXT",
         "> VERIFYING RECIPIENT...",
         "> ACCESS GRANTED"
     ]);
+
+    typeSubtitle(letterSubtitleIntro, letterIntroText);
 });
 
 letterBackBtn.addEventListener("click", async () => {
+
+    letterSubtitleIntro.textContent = "";
+    await typeSubtitle(letterSubtitleOutro, letterOutroText);
+    await sleep(600);
+
     await closeArchiveModule(letterModule, [
         "> CLOSING LETTER.TXT",
         "> RETURNING TO ARCHIVE..."
     ]);
+});
+
+/* ============================================================
+   MEMORIES MODULE EVENTS
+   ============================================================ */
+memoriesBtn.addEventListener("click", async () => {
+
+    memoriesSubtitleIntro.textContent = "";
+    memoriesSubtitleOutro.textContent = "";
+
+    await openArchiveModule(memoriesModule, [
+        "> OPENING MEMORIES.EXE",
+        "> SCANNING MEMORY RECORDS...",
+        "> 12 MEMORY RECORDS RECOVERED"
+    ]);
+
+    typeSubtitle(memoriesSubtitleIntro, memoriesIntroText);
+});
+
+memoriesBackBtn.addEventListener("click", async () => {
+
+    memoriesSubtitleIntro.textContent = "";
+    await typeSubtitle(memoriesSubtitleOutro, memoriesOutroText);
+    await sleep(600);
+
+    await closeArchiveModule(memoriesModule, [
+        "> CLOSING MEMORIES.EXE",
+        "> RETURNING TO ARCHIVE..."
+    ]);
+});
+
+// Clicking a memory record highlights it and loads its
+// author/content into the viewer on the right
+memoryRecords.forEach(record => {
+    record.addEventListener("click", () => {
+        memoryRecords.forEach(r => r.classList.remove("active"));
+        record.classList.add("active");
+
+        memoryAuthor.textContent = `AUTHOR IDENTIFIED: ${record.dataset.author.toUpperCase()}`;
+        memoryContent.textContent = record.dataset.memory;
+    });
 });
 
 
@@ -542,14 +683,24 @@ letterBackBtn.addEventListener("click", async () => {
    SECRET FILE MODULE EVENTS
    ============================================================ */
 fileBtn.addEventListener("click", async () => {
+
+    fileSubtitleIntro.textContent = "";
+    fileSubtitleOutro.textContent = "";
+
     await openArchiveModule(fileModule, [
         "> SECRET_FILE.ENC",
         "> DECRYPTION SUCCESSFUL...",
         "> 5 AUDIO RECORDINGS RECOVERED"
     ]);
+
+    typeSubtitle(fileSubtitleIntro, fileIntroText);
 });
 
 fileBackBtn.addEventListener("click", async () => {
+
+    fileSubtitleIntro.textContent = "";
+    await typeSubtitle(fileSubtitleOutro, fileOutroText);
+    await sleep(300);
 
     // secretPlayer.pause();
     // secretPlayer.currentTime = 0;
@@ -570,38 +721,8 @@ fileBackBtn.addEventListener("click", async () => {
         "> CLOSING SECRET_FILE.ENC",
         "> RETURNING TO ARCHIVE..."
     ]);
+
 });
-
-/* ============================================================
-   MEMORIES MODULE EVENTS
-   ============================================================ */
-memoriesBtn.addEventListener("click", async () => {
-    await openArchiveModule(memoriesModule, [
-        "> OPENING MEMORIES.EXE",
-        "> SCANNING MEMORY RECORDS...",
-        "> 12 MEMORY RECORDS RECOVERED"
-    ]);
-});
-
-memoriesBackBtn.addEventListener("click", async () => {
-    await closeArchiveModule(memoriesModule, [
-        "> CLOSING MEMORIES.EXE",
-        "> RETURNING TO ARCHIVE..."
-    ]);
-});
-
-// Clicking a memory record highlights it and loads its
-// author/content into the viewer on the right
-memoryRecords.forEach(record => {
-    record.addEventListener("click", () => {
-        memoryRecords.forEach(r => r.classList.remove("active"));
-        record.classList.add("active");
-
-        memoryAuthor.textContent = `AUTHOR IDENTIFIED: ${record.dataset.author.toUpperCase()}`;
-        memoryContent.textContent = record.dataset.memory;
-    });
-});
-
 
 /* ============================================================
    STARTUP
