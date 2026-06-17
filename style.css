@@ -1,25 +1,45 @@
 :root {
-    --header-font: "Fjalla One", sans-serif;
-    --main-font: "Courier New", Courier, monospace;
-    --apocalyptic-color: rgb(211, 211, 211);
-    --roboto-font: "Roboto", sans-serif;
+    --header-font:   "Fjalla One", sans-serif;
+    --main-font:     "Courier New", Courier, monospace;
     --terminal-font: "Bitcount Prop Single", system-ui;
+    --roboto-font:   "Roboto", sans-serif;
+
+    --green:         rgb(84, 255, 32);
+    --green-dim:     rgba(84, 255, 32, 0.15);
+    --green-border:  rgba(84, 255, 32, 0.3);
+    --text-primary:  rgb(211, 211, 211);
+    --text-muted:    rgba(255, 255, 255, 0.6);
+
+    --fade-speed:    1s;
+    --module-fade:   0.5s;
 }
 
-* {
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    color: var(--apocalyptic-color);
+    color: var(--text-primary);
     overflow: hidden;
+    background: black;
 }
 
-/* -----------------------------
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================================
    LOADING SCREEN
------------------------------- */
+   ============================================================ */
 .loading-screen {
     width: 100%;
     height: 100vh;
@@ -38,13 +58,12 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0.85) 0%,
-            rgba(0, 0, 0, 0.70) 35%,
-            rgba(0, 0, 0, 0.20) 100%
-        );
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.88) 0%,
+        rgba(0, 0, 0, 0.70) 40%,
+        rgba(0, 0, 0, 0.18) 100%
+    );
 }
 
 .heading,
@@ -63,6 +82,7 @@ h1 {
     font-family: var(--header-font);
     font-weight: 400;
     line-height: 1.1;
+    letter-spacing: 0.02em;
 }
 
 .heading p {
@@ -77,7 +97,7 @@ h1 {
     padding-left: 5rem;
     padding-top: 4rem;
     font-family: var(--main-font);
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted);
 }
 
 #terminal p {
@@ -99,10 +119,14 @@ h1 {
     font-family: var(--main-font);
     font-size: 0.8rem;
     font-weight: 100;
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.55);
     text-align: right;
+    letter-spacing: 1px;
 }
 
+/* ============================================================
+   SHARED BUTTON VISIBILITY STATES
+   ============================================================ */
 .hidden-button {
     opacity: 0 !important;
     visibility: hidden;
@@ -115,13 +139,16 @@ h1 {
     pointer-events: auto;
 }
 
+/* ============================================================
+   SKIP BUTTON
+   ============================================================ */
 #skip-btn {
     align-self: center;
     background: none;
     border: none;
     padding: 0;
 
-    color: lightgray;
+    color: var(--text-primary);
     font-family: var(--roboto-font);
     font-size: 0.8rem;
     letter-spacing: 2px;
@@ -134,23 +161,24 @@ h1 {
 }
 
 #skip-btn:hover {
-    opacity: 1;
+    opacity: 1 !important;
     transform: translateX(6px);
 }
 
+/* ============================================================
+   CURSOR BLINK
+   ============================================================ */
 .cursor {
     animation: blink 1s infinite;
 }
 
 @keyframes blink {
-    50% {
-        opacity: 0;
-    }
+    50% { opacity: 0; }
 }
 
-/* -----------------------------
+/* ============================================================
    CHARACTER SCREEN
------------------------------- */
+   ============================================================ */
 #character-screen {
     position: fixed;
     inset: 0;
@@ -171,6 +199,12 @@ h1 {
     content: "";
     position: absolute;
     inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.75) 0%,
+        rgba(0, 0, 0, 0.35) 60%,
+        rgba(0, 0, 0, 0.05) 100%
+    );
 }
 
 .character-ui {
@@ -187,11 +221,12 @@ h1 {
     font-family: var(--header-font);
     margin-bottom: 20px;
     font-size: 2rem;
+    letter-spacing: 0.06em;
 }
 
 .left-panel ul {
     list-style: none;
-    padding-bottom: 150px;
+    padding-bottom: 60px;
 }
 
 .left-panel li {
@@ -199,22 +234,25 @@ h1 {
     font-family: var(--roboto-font);
     font-weight: 300;
     font-size: 1.3rem;
-    opacity: 0.5;
+    opacity: 0.4;
     color: white;
+    transition: opacity 0.2s ease;
+    cursor: default;
 }
 
 .left-panel .active {
     opacity: 1;
-    color: white;
 }
 
-.left-panel p{
+.left-panel p {
     margin-bottom: 18px;
     font-family: var(--roboto-font);
     font-weight: 300;
-    font-size: 0.8rem;
-    opacity: 1;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    opacity: 0.85;
     color: white;
+    max-width: 480px;
 }
 
 .right-panel {
@@ -226,14 +264,19 @@ h1 {
     font-family: var(--header-font);
     color: white;
     margin-top: 25px;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+    text-transform: uppercase;
 }
 
 .right-panel p {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: white;
     font-family: var(--roboto-font);
     font-weight: 300;
     opacity: 0.8;
+    margin-top: 4px;
 }
 
 .bottom-controls {
@@ -246,7 +289,7 @@ h1 {
 #back-btn {
     background: none;
     border: none;
-    color: lightgray;
+    color: var(--text-primary);
     cursor: pointer;
     opacity: 0.65;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -260,13 +303,13 @@ h1 {
 }
 
 #next-btn:hover {
-    opacity: 1;
+    opacity: 1 !important;
     transform: translateX(8px);
 }
 
-/* -----------------------------
+/* ============================================================
    NAVIGATION SCREEN
------------------------------- */
+   ============================================================ */
 #navigation-screen {
     position: fixed;
     inset: 0;
@@ -280,7 +323,7 @@ h1 {
     visibility: hidden;
     pointer-events: none;
 
-    transition: opacity 1s ease, visibility 1s ease;
+    transition: opacity var(--fade-speed) ease, visibility var(--fade-speed) ease;
 }
 
 .show-navigation {
@@ -299,20 +342,20 @@ h1 {
     flex-direction: column;
     justify-content: center;
 
-    background:
-    linear-gradient(
+    background: linear-gradient(
         90deg,
-        rgba(0,0,0,.92),
-        rgba(0,0,0,.65),
-        rgba(0,0,0,.25)
+        rgba(0, 0, 0, 0.92),
+        rgba(0, 0, 0, 0.60),
+        rgba(0, 0, 0, 0.20)
     );
 }
 
 .navigation-overlay h1 {
     font-family: var(--terminal-font);
-    color: rgb(84, 255, 32);
-    font-size: 4rem;
-    margin-bottom: 3rem;
+    color: var(--green);
+    font-size: 3.5rem;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.04em;
 }
 
 .nav-item {
@@ -322,24 +365,42 @@ h1 {
 
     background: none;
     border: none;
-    color: rgb(84, 255, 32);
+    color: var(--green);
 
     font-size: 1.2rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.4rem;
 
     text-align: left;
     cursor: pointer;
 
-    opacity: 0.6;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0.55;
+    transition: opacity 0.25s ease, transform 0.25s ease, letter-spacing 0.25s ease;
+    position: relative;
+    padding-left: 0;
+}
+
+.nav-item::before {
+    content: "›";
+    position: absolute;
+    left: -1.2rem;
+    opacity: 0;
+    transition: opacity 0.25s ease, left 0.25s ease;
 }
 
 .nav-item:hover {
     opacity: 1;
-    transform: translateX(15px);
+    transform: translateX(18px);
+    letter-spacing: 0.04em;
 }
 
-/* Back button */
+.nav-item:hover::before {
+    opacity: 1;
+    left: -1.4rem;
+}
+
+/* ============================================================
+   BACK BUTTON (navigation screen)
+   ============================================================ */
 #back-btn {
     position: absolute;
     left: 60px;
@@ -350,13 +411,13 @@ h1 {
 }
 
 #back-btn:hover {
-    opacity: 1;
+    opacity: 1 !important;
     transform: translateX(-8px);
 }
 
-/* -----------------------------
+/* ============================================================
    TRANSITIONS
------------------------------- */
+   ============================================================ */
 #loading-screen {
     transition: opacity 1.5s ease, visibility 1.5s ease;
 }
@@ -382,28 +443,26 @@ h1 {
     opacity: 0;
     pointer-events: none;
 
-    transition: opacity 1s ease;
+    transition: opacity var(--fade-speed) ease;
 }
 
 .black {
     opacity: 1 !important;
 }
 
-/* Shared pulse animation */
+/* ============================================================
+   SHARED PULSE ANIMATION
+   ============================================================ */
 @keyframes pulse {
-    0%, 100% {
-        opacity: 0.4;
-    }
-    50% {
-        opacity: 1;
-    }
+    0%, 100% { opacity: 0.35; }
+    50%       { opacity: 0.9; }
 }
 
-/* ========================================
+/* ============================================================
    MODULE LOADER
-   Fullscreen overlay with a typing animation, shown briefly
+   Full-screen overlay with a typing animation, shown briefly
    while an archive module opens or closes.
-======================================== */
+   ============================================================ */
 #module-loader {
     pointer-events: none;
     position: fixed;
@@ -419,7 +478,6 @@ h1 {
     visibility: hidden;
 
     transition: 0.5s ease;
-
     z-index: 2000;
 }
 
@@ -431,17 +489,15 @@ h1 {
 
 #module-terminal {
     font-family: var(--terminal-font);
-    color: rgb(84, 255, 32);
+    color: var(--green);
     font-size: 1.2rem;
     text-align: center;
-    line-height: 2;
+    line-height: 2.2;
 }
 
-/* ========================================
+/* ============================================================
    SHARED ARCHIVE MODULE STYLES
-   Used by the Stats, Artifacts, Letter, and Secret File
-   modules below.
-======================================== */
+   ============================================================ */
 .show-module {
     opacity: 1 !important;
     visibility: visible !important;
@@ -456,25 +512,29 @@ h1 {
     background: none;
     border: none;
 
-    color: rgb(84, 255, 32);
+    color: var(--green);
     font-family: var(--terminal-font);
     font-size: 1rem;
+    letter-spacing: 0.04em;
 
     cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .module-back:hover {
-    opacity: 0.8;
+    opacity: 1;
+    transform: translateX(-4px);
 }
 
-/* ========================================
+/* ============================================================
    STATS MODULE
-======================================== */
+   ============================================================ */
 #stats-module {
     position: fixed;
     inset: 0;
     background: black;
-    color: rgb(84, 255, 32);
+    color: var(--green);
     font-family: var(--terminal-font);
     padding: 80px;
     z-index: 3000;
@@ -482,7 +542,7 @@ h1 {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity var(--module-fade) ease, visibility var(--module-fade) ease;
     display: flex;
 }
 
@@ -492,44 +552,32 @@ h1 {
 
 .stats-container h1 {
     margin-bottom: 40px;
-    color: rgb(84, 255, 32);
-}
-
-.stats-subtitle {
-    position: absolute;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%);
-
-    width: 80%;
-    max-width: 700px;
-    text-align: center;
-
-    font-family: var(--main-font);
-    font-weight: 300;
-    color: white;
-    font-size: 1rem;
-    line-height: 1.8;
-    white-space: pre-line;
-}
-
-.stats-subtitle-outro {
-    bottom: 30px;
-    opacity: 0.9;
+    color: var(--green);
+    letter-spacing: 0.06em;
 }
 
 .stat {
-    margin-bottom: 25px;
+    margin-bottom: 28px;
+}
+
+.stat span {
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
 }
 
 .bar {
-    margin-top: 5px;
-    color: rgb(84, 255, 32);
+    margin-top: 6px;
+    color: var(--green);
+    font-size: 1rem;
+    letter-spacing: 2px;
 }
 
-.stats-container p {
+.stats-container > p {
     margin-top: 60px;
-    line-height: 1.8;
+    line-height: 2;
+    opacity: 0.75;
+    font-size: 0.9rem;
 }
 
 .mugshot-container {
@@ -537,22 +585,30 @@ h1 {
     height: 70vh;
     margin-left: auto;
     margin-top: 100px;
+    overflow: hidden;
+    border: 1px solid var(--green-border);
 }
 
 .mugshot-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: grayscale(20%);
+    transition: filter 0.4s ease;
 }
 
-/* ========================================
+.mugshot-container:hover img {
+    filter: grayscale(0%);
+}
+
+/* ============================================================
    ARTIFACTS MODULE
-======================================== */
+   ============================================================ */
 #artifacts-module {
     position: fixed;
     inset: 0;
     background: black;
-    color: rgb(84, 255, 32);
+    color: var(--green);
     font-family: var(--terminal-font);
     padding: 80px;
     z-index: 3000;
@@ -561,35 +617,53 @@ h1 {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity var(--module-fade) ease, visibility var(--module-fade) ease;
+}
+
+#artifacts-module h1 {
+    margin-bottom: 30px;
+    letter-spacing: 0.06em;
 }
 
 .artifacts-container {
     column-count: 3;
-    column-gap: 20px;
+    column-gap: 16px;
     max-width: 1400px;
     margin: 40px auto;
 }
 
-.artifacts-container > div {
+.artifact {
     break-inside: avoid;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border: 1px solid var(--green-border);
+    transition: border-color 0.3s ease;
 }
 
-.artifacts-container img {
+.artifact:hover {
+    border-color: var(--green);
+}
+
+.artifact img {
     width: 100%;
     display: block;
-    border: 1px solid rgba(84,255,32,.3);
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: grayscale(30%);
 }
 
-/* ========================================
+.artifact:hover img {
+    transform: scale(1.03);
+    filter: grayscale(0%);
+}
+
+/* ============================================================
    SECRET FILE MODULE
-======================================== */
+   ============================================================ */
 #file-module {
     position: fixed;
     inset: 0;
     background: black;
-    color: rgb(84, 255, 32);
+    color: var(--green);
     font-family: var(--terminal-font);
     padding: 80px;
     z-index: 3000;
@@ -598,29 +672,57 @@ h1 {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity var(--module-fade) ease, visibility var(--module-fade) ease;
+}
+
+#file-module h1 {
+    margin-bottom: 16px;
+    letter-spacing: 0.06em;
+}
+
+#file-module > p {
+    opacity: 0.6;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 8px;
 }
 
 .file-container {
     display: flex;
     gap: 40px;
-    margin-top: 80px;
+    margin-top: 60px;
     flex-wrap: wrap;
+}
+
+.file-container > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-container > div > p {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
 }
 
 .music-file {
     width: 160px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.25s ease, filter 0.25s ease;
+    filter: brightness(0.85);
 }
 
 .music-file:hover {
-    transform: scale(1.05);
+    transform: scale(1.06);
+    filter: brightness(1.1);
 }
 
 .playing {
-    outline: 3px solid rgb(84, 255, 32);
-    box-shadow: 0 0 20px rgb(84, 255, 32);
+    outline: 2px solid var(--green);
+    box-shadow: 0 0 20px rgba(84, 255, 32, 0.5);
+    filter: brightness(1.15);
 }
 
 #secret-video {
@@ -637,18 +739,17 @@ h1 {
 }
 
 #secret-video.active {
-    opacity: 0.35;
+    opacity: 0.3;
 }
 
-/* ========================================
+/* ============================================================
    MEMORIES MODULE
-======================================== */
-
+   ============================================================ */
 #memories-module {
     position: fixed;
     inset: 0;
     background: black;
-    color: rgb(84, 255, 32);
+    color: var(--green);
     font-family: var(--terminal-font);
     padding: 80px;
     z-index: 3000;
@@ -656,26 +757,47 @@ h1 {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity var(--module-fade) ease, visibility var(--module-fade) ease;
+}
+
+#memories-module h1 {
+    letter-spacing: 0.06em;
 }
 
 .memory-subtitle {
     margin-top: 10px;
     margin-bottom: 40px;
-    opacity: 0.7;
+    opacity: 0.5;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
 }
 
 .memory-layout {
     display: grid;
-    grid-template-columns: 350px 1fr;
-    gap: 50px;
-    height: 70vh;
+    grid-template-columns: 320px 1fr;
+    gap: 40px;
+    height: 68vh;
 }
 
 .memory-list {
-    border: 1px solid rgb(84, 255, 32);
+    border: 1px solid var(--green-border);
     overflow-y: auto;
-    padding: 20px;
+    padding: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--green-border) transparent;
+}
+
+.memory-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.memory-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.memory-list::-webkit-scrollbar-thumb {
+    background: var(--green-border);
+    border-radius: 2px;
 }
 
 .memory-record {
@@ -684,47 +806,71 @@ h1 {
 
     background: none;
     border: none;
+    border-left: 2px solid transparent;
 
-    color: rgb(84, 255, 32);
+    color: var(--green);
     font-family: var(--terminal-font);
+    font-size: 0.9rem;
     text-align: left;
 
-    padding: 12px;
+    padding: 10px 12px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    opacity: 0.65;
 }
 
 .memory-record:hover {
-    background: rgba(84, 255, 32, 0.1);
+    background: var(--green-dim);
+    opacity: 1;
 }
 
 .memory-record.active {
-    background: rgba(84, 255, 32, 0.2);
+    background: rgba(84, 255, 32, 0.12);
+    border-left-color: var(--green);
+    opacity: 1;
 }
 
 .memory-viewer {
-    border: 1px solid rgb(84, 255, 32);
+    border: 1px solid var(--green-border);
     padding: 30px;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--green-border) transparent;
+}
+
+.memory-viewer::-webkit-scrollbar {
+    width: 4px;
+}
+
+.memory-viewer::-webkit-scrollbar-thumb {
+    background: var(--green-border);
+    border-radius: 2px;
 }
 
 #memory-author {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    border-bottom: 1px solid var(--green-border);
+    padding-bottom: 16px;
 }
 
 #memory-content {
-    line-height: 2;
+    line-height: 2.2;
     white-space: pre-wrap;
+    font-size: 0.95rem;
+    opacity: 0.9;
 }
 
-/* ========================================
+/* ============================================================
    LETTER MODULE
-======================================== */
+   ============================================================ */
 #letter-module {
     position: fixed;
     inset: 0;
     background: black;
-    color: rgb(84, 255, 32);
+    color: var(--green);
     font-family: var(--terminal-font);
     padding: 80px;
     z-index: 3000;
@@ -733,10 +879,156 @@ h1 {
     height: 100vh;
     background-image: url("assets/background/letter.jpg");
     background-size: cover;
+    background-position: center;
 
     overflow-y: auto;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity var(--module-fade) ease, visibility var(--module-fade) ease;
+}
+
+/* ============================================================
+   CLOSING SCREEN
+   BUG FIX: was #closing-module — now matches id="closing-screen"
+   in index.html so the background image and .show-closing class
+   actually apply.
+   ============================================================ */
+#closing-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+
+    background-image: url("assets/background/bg-closing-image.jpg");
+    background-size: cover;
+    background-position: center;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity var(--fade-speed) ease, visibility var(--fade-speed) ease;
+}
+
+.show-closing {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.closing-overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-left: 8rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.92),
+        rgba(0, 0, 0, 0.65),
+        rgba(0, 0, 0, 0.20)
+    );
+}
+
+#nav-next-btn {
+    position: absolute;
+    right: 60px;
+    bottom: 40px;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-family: var(--roboto-font);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    opacity: 0.65;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    animation: pulse 1.8s infinite;
+}
+
+#nav-next-btn:hover {
+    opacity: 1 !important;
+    transform: translateX(8px);
+}
+
+/* ============================================================
+   SUBTITLES
+   Shared fixed-bottom caption bar used across all screens.
+   ============================================================ */
+.character-screen-subtitle,
+.navigation-subtitle,
+.stats-subtitle,
+.artifacts-subtitle,
+.file-subtitle,
+.memories-subtitle,
+.letter-subtitle {
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+
+    font-family: var(--main-font);
+    font-weight: 300;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.75);
+    padding: 10px 20px;
+    border-radius: 2px;
+
+    opacity: 0.85;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    white-space: pre-line;
+
+    z-index: 10;
+    pointer-events: none;
+
+    /* Hidden by default; JS sets visibility directly */
+    visibility: hidden;
+}
+
+.closing-subtitle {
+        position: fixed;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+
+    font-family: var(--main-font);
+    font-weight: 300;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 2px;
+
+    opacity: 0.85;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    white-space: pre-line;
+
+    z-index: 10;
+    pointer-events: none;
+
+    /* Hidden by default; JS sets visibility directly */
+    visibility: hidden;
+}
+/* Outro variants sit slightly higher so they don't overlap
+   the navigation buttons */
+.navigation-subtitle-outro,
+.stats-subtitle-outro,
+.artifacts-subtitle-outro,
+.file-subtitle-outro,
+.memories-subtitle-outro,
+.letter-subtitle-outro {
+    bottom: 30px;
+    opacity: 0.95;
 }

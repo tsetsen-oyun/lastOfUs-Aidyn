@@ -1,44 +1,57 @@
 /* ============================================================
    AUDIO ELEMENTS
    ============================================================ */
-const bgMusic = document.getElementById("bg-music");
+const bgMusic    = document.getElementById("bg-music");
 const clickSound = document.getElementById("click-sound");
-const buttons = document.querySelectorAll("button");
+const buttons    = document.querySelectorAll("button");
 
 
 /* ============================================================
    LOADING SCREEN ELEMENTS
    ============================================================ */
-const loadingScreen = document.getElementById("loading-screen");
+const loadingScreen  = document.getElementById("loading-screen");
 const loadingPercent = document.getElementById("loading-percent");
-const loadingText = document.getElementById("loading-text");
-const terminal = document.getElementById("terminal");
-const skipBtn = document.getElementById("skip-btn");
+const loadingText    = document.getElementById("loading-text");
+const terminal       = document.getElementById("terminal");
+const skipBtn        = document.getElementById("skip-btn");
 
 
 /* ============================================================
    MAIN SCREENS
    ============================================================ */
-const characterScreen = document.getElementById("character-screen");
-const navigationScreen = document.getElementById("navigation-screen");
+const characterScreen           = document.getElementById("character-screen");
+const characterScreenSubtitle   = document.getElementById("character-screen-subtitle");
+const characterScreenText       = "Proceed to archive when ready.";
 
-const navigationSubtitleIntro1 = document.getElementById("navigation-subtitle-intro1");
-const navigationSubtitleIntro2 = document.getElementById("navigation-subtitle-intro2");
-const navigationSubtitleOutro1 = document.getElementById("navigation-subtitle-outro1");
-const navigationSubtitleOutro2 = document.getElementById("navigation-subtitle-outro2");
-const navigationSubtitleOutr3 = document.getElementById("navigation-subtitle-outro3");
-const navigationSubtitleOutr4 = document.getElementById("navigation-subtitle-outro4");
+const navigationScreen          = document.getElementById("navigation-screen");
+
+// BUG FIX: removed four null references to non-existent
+// navigation-subtitle-outro1–4 elements.
+const navigationSubtitleIntro1  = document.getElementById("navigation-subtitle-intro1");
+const navigationSubtitleIntro2  = document.getElementById("navigation-subtitle-intro2");
+
 const navigationIntroText1 = "The following files were salvaged from the remains of the old world.\nEach file may contain fragments of your missing memories.";
 const navigationIntroText2 = "Review all available records to maximize recovery success.\nCurrent Memory Integrity: 12%";
-const navigationOutroText1 = "Subject Identity Restored. Archive Integrity: 100%\nReviewing recovered records...";
-const navigationOutroText2 = "Analysis Complete. The recovered records indicate that: \nSubject formed meaningful connections with numerous individuals.\nSubject demonstrated exceptional creativity.\nSubject consistently improved the lives of those around her.\nSubject's presence was valued.";
-const navigationOutroText3 = "Additional note discovered. Source: Unknown.\n\"Whenever you begin to doubt yourself, return to this archive.";
-const navigationOutroText4 = "Welcome back, Aidyn. Memory recovery complete.\n Happy Birthday;)";
 
-const fadeBlack = document.getElementById("fade-black");
+const fadeBlack  = document.getElementById("fade-black");
 
-const nextBtn = document.getElementById("next-btn");
-const backBtn = document.getElementById("back-btn");
+const nextBtn    = document.getElementById("next-btn");
+const backBtn    = document.getElementById("back-btn");
+const navNextBtn = document.getElementById("nav-next-btn");
+
+// BUG FIX: removed stray leading space before "Happy Birthday"
+const closingSubtitle =
+    "Subject Identity Restored. Archive Integrity: 100%\n" +
+    "Reviewing recovered records...\n" +
+    "Analysis Complete. The recovered records indicate that:\n" +
+    "Subject formed meaningful connections with numerous individuals.\n" +
+    "Subject demonstrated exceptional creativity.\n" +
+    "Subject consistently improved the lives of those around her.\n" +
+    "Subject's presence was valued.\n" +
+    "Additional note discovered. Source: Unknown.\n" +
+    "\"Whenever you begin to doubt yourself, return to this archive.\"\n" +
+    "Welcome back, Aidyn. Memory recovery complete.\n" +
+    "Happy Birthday ;)";
 
 
 /* ============================================================
@@ -50,69 +63,67 @@ const backBtn = document.getElementById("back-btn");
    ============================================================ */
 
 // STATS module
-const statsModule = document.getElementById("stats-module");
-const statsBtn = document.getElementById("stats-btn");
-const statsBackBtn = document.getElementById("stats-back-btn");
+const statsModule          = document.getElementById("stats-module");
+const statsBtn             = document.getElementById("stats-btn");
+const statsBackBtn         = document.getElementById("stats-back-btn");
 
-const statsSubtitleIntro = document.getElementById("stats-subtitle-intro");
-const statsSubtitleOutro = document.getElementById("stats-subtitle-outro");
-const statsIntroText = "Recovered personality profile.\nGenerated before memory corruption.";
-const statsOutroText = "Memory Fragment Recovered.\nMemory Integrity Increased.";
+const statsSubtitleIntro   = document.getElementById("stats-subtitle-intro");
+const statsSubtitleOutro   = document.getElementById("stats-subtitle-outro");
+const statsIntroText       = "Recovered personality profile.\nGenerated before memory corruption.";
+const statsOutroText       = "Memory Fragment Recovered.\nMemory Integrity Increased.";
 
 // ARTIFACTS module
-const artifactsModule = document.getElementById("artifacts-module");
-const artifactsBtn = document.getElementById("artifacts-btn");
-const artifactsBackBtn = document.getElementById("artifacts-back-btn");
+const artifactsModule        = document.getElementById("artifacts-module");
+const artifactsBtn           = document.getElementById("artifacts-btn");
+const artifactsBackBtn       = document.getElementById("artifacts-back-btn");
 
 const artifactsSubtitleIntro = document.getElementById("artifacts-subtitle-intro");
 const artifactsSubtitleOutro = document.getElementById("artifacts-subtitle-outro");
-const artifactsIntroText = "The subject appears to have expressed herself through visual media.\nReviewing these artifacts may assist identity reconstruction.";
-const artifactsOutroText = "Additional identity markers recovered.\nMemory Integrity Increased.";
-
+const artifactsIntroText     = "The subject appears to have expressed herself through visual media.\nReviewing these artifacts may assist identity reconstruction.";
+const artifactsOutroText     = "Additional identity markers recovered.\nMemory Integrity Increased.";
 
 // SECRET FILE module
-const fileModule = document.getElementById("file-module");
-const fileBtn = document.getElementById("file-btn");
-const fileBackBtn = document.getElementById("file-back-btn");
-const secretVideo = document.getElementById("secret-video");
+const fileModule         = document.getElementById("file-module");
+const fileBtn            = document.getElementById("file-btn");
+const fileBackBtn        = document.getElementById("file-back-btn");
+const secretVideo        = document.getElementById("secret-video");
 
-const fileSubtitleIntro = document.getElementById("file-subtitle-intro");
-const fileSubtitleOutro = document.getElementById("file-subtitle-outro");
-const fileIntroText = "The subject returned to these files repeatedly.\nReason unknown.";
-const fileOutroText = "Preference data recovered. The subject loved these songs.\nThe reasons may be forgotten but the feelings remain.\nMemory Fragment Recovered.";
+const fileSubtitleIntro  = document.getElementById("file-subtitle-intro");
+const fileSubtitleOutro  = document.getElementById("file-subtitle-outro");
+const fileIntroText      = "The subject returned to these files repeatedly.\nReason unknown.";
+const fileOutroText      = "Preference data recovered. The subject loved these songs.\nThe reasons may be forgotten but the feelings remain.\nMemory Fragment Recovered.";
 
 // MEMORIES module
-const memoriesModule = document.getElementById("memories-module");
-const memoriesBtn = document.getElementById("memories-btn");
-const memoriesBackBtn = document.getElementById("memories-back-btn");
+const memoriesModule         = document.getElementById("memories-module");
+const memoriesBtn            = document.getElementById("memories-btn");
+const memoriesBackBtn        = document.getElementById("memories-back-btn");
 
-// Memory viewer: clicking a record fills these in
-const memoryRecords = document.querySelectorAll(".memory-record");
-const memoryAuthor = document.getElementById("memory-author");
-const memoryContent = document.getElementById("memory-content");
+const memoryRecords          = document.querySelectorAll(".memory-record");
+const memoryAuthor           = document.getElementById("memory-author");
+const memoryContent          = document.getElementById("memory-content");
 
-const memoriesSubtitleIntro = document.getElementById("memories-subtitle-intro");
-const memoriesSubtitleOutro = document.getElementById("memories-subtitle-outro");
-const memoriesIntroText = "Witness testimonies recovered. Memory corruption prevented direct access to many events\nFortunately, the people who experienced those moments still remember.\n Reviewing these records may assist recovery.";
-const memoriesOutroText = "MAnalysis complete. A consistent pattern was detected.:\n The subject was valued. The subject was remembered. The subject was loved.\n Memory Integrity Increased.";
+const memoriesSubtitleIntro  = document.getElementById("memories-subtitle-intro");
+const memoriesSubtitleOutro  = document.getElementById("memories-subtitle-outro");
+const memoriesIntroText      = "Memory corruption prevented direct access to many events.\nFortunately, the people who experienced those moments still remember.\nReviewing these records may assist recovery.";
+const memoriesOutroText      = "Analysis complete. A consistent pattern was detected: The subject\nwas valued. The subject was remembered. The subject was loved.\nMemory Integrity Increased.";
 
 // LETTER module
-const letterModule = document.getElementById("letter-module");
-const letterBtn = document.getElementById("letter-btn");
-const letterBackBtn = document.getElementById("letter-back-btn");
+const letterModule         = document.getElementById("letter-module");
+const letterBtn            = document.getElementById("letter-btn");
+const letterBackBtn        = document.getElementById("letter-back-btn");
 
-const letterSubtitleIntro = document.getElementById("letter-subtitle-intro");
-const letterSubtitleOutro = document.getElementById("letter-subtitle-outro");
-const letterIntroText = "This file was written directly to the subject. Sender identified: Oyuka\nReview recommended.";
-const letterOutroText = "Message archived successfully.Emotional markers detected.\nMemory Fragment Recovered.";
+const letterSubtitleIntro  = document.getElementById("letter-subtitle-intro");
+const letterSubtitleOutro  = document.getElementById("letter-subtitle-outro");
+const letterIntroText      = "This file was written directly to the subject. Sender identified: Oyuka.\nReview recommended.";
+const letterOutroText      = "Message archived successfully. Emotional markers detected.\nMemory Fragment Recovered.";
 
-// Shared "loading" overlay shown while a module opens/closes
-const moduleLoader = document.getElementById("module-loader");
+// Shared loading overlay shown while a module opens/closes
+const moduleLoader   = document.getElementById("module-loader");
 const moduleTerminal = document.getElementById("module-terminal");
 
 
 /* ============================================================
-   SECRET FILE MODULE - CASSETTE PLAYER
+   SECRET FILE MODULE — CASSETTE PLAYER
    Clicking a cassette plays its associated audio recording and
    highlights it as "currently playing".
    ============================================================ */
@@ -121,46 +132,46 @@ const musicFiles = document.querySelectorAll(".music-file");
 
 musicFiles.forEach(file => {
     file.addEventListener("click", () => {
-        // Only one cassette is highlighted as "playing" at a time
         musicFiles.forEach(f => f.classList.remove("playing"));
         file.classList.add("playing");
 
-        // Stop whatever is currently playing and start the new track
         const song = file.dataset.song;
         secretPlayer.pause();
         secretPlayer = new Audio(song);
         secretPlayer.volume = 0.5;
         secretPlayer.play();
 
-        // Pause the background music while a recording is playing
-        if (!bgMusic.paused) {
-            bgMusic.pause();
-        }
+        if (!bgMusic.paused) bgMusic.pause();
 
-        // VIDEO STARTS
         secretVideo.currentTime = 0;
         secretVideo.play();
         secretVideo.classList.add("active");
     });
-
 });
+
 /**
- * Stops and rewinds whatever cassette is currently playing.
- * Called when leaving the Secret File module so audio doesn't
- * keep playing in the background.
+ * Stops and rewinds the currently playing cassette.
+ * Called when leaving the Secret File module.
  */
 function stopSecretAudio() {
     secretPlayer.pause();
     secretPlayer.currentTime = 0;
+    musicFiles.forEach(f => f.classList.remove("playing"));
 }
+
 
 /* ============================================================
    STATE FLAGS
    ============================================================ */
-let isTransitioning = false;
+let isTransitioning          = false;
 let hasReachedCharacterScreen = false;
-let loadingCancelled = false;
-let musicStarted = false;
+let loadingCancelled         = false;
+let musicStarted             = false;
+
+// BUG FIX: isPlayingOutro is now properly toggled true/false
+// around every back-button outro sequence, preventing users
+// from clicking nav buttons while the outro animation plays.
+let isPlayingOutro = false;
 
 
 /* ============================================================
@@ -181,50 +192,41 @@ const logs = [
 /* ============================================================
    TIMING CONSTANTS
    ============================================================ */
-const BLACK_FADE_MS = 1000;
+const BLACK_FADE_MS  = 500;
 const RETURN_FADE_MS = 300;
 
 
 /* ============================================================
    BACKGROUND MUSIC
+   Starts on first user interaction, fades in gently.
    ============================================================ */
-
-/**
- * Starts the background music and fades it in gently.
- * Runs once, triggered by the user's first click anywhere.
- */
 async function startMusic() {
     if (musicStarted) return;
     musicStarted = true;
 
     bgMusic.volume = 0;
-    await bgMusic.play();
+    await bgMusic.play().catch(() => {});
 
     const fadeIn = setInterval(() => {
         if (bgMusic.volume >= 0.15) {
+            bgMusic.volume = 0.15;
             clearInterval(fadeIn);
             return;
         }
-        bgMusic.volume += 0.01;
+        bgMusic.volume = Math.min(bgMusic.volume + 0.01, 0.15);
     }, 100);
-
-    bgMusic.volume = 0.15;
 }
 
 
 /* ============================================================
    CLICK SOUND
+   Attached to every button on the page.
    ============================================================ */
-
-/**
- * Plays the UI click sound from the start, every time.
- */
 function playClickSound() {
     clickSound.currentTime = 0;
     clickSound.play().catch(() => {});
 }
 
-// Attach the click sound to every button on the page
 buttons.forEach(button => {
     button.addEventListener("click", playClickSound);
 });
@@ -234,30 +236,30 @@ buttons.forEach(button => {
    HELPER FUNCTIONS
    ============================================================ */
 
-/**
- * Small pause helper.
- */
+/** Small pause helper. */
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-/**
- * Reveals a hidden button, then fades it in shortly after.
- */
+/** Reveals a hidden button with a short fade-in. */
 function revealButton(button) {
     button.classList.remove("hidden-button");
+    setTimeout(() => button.classList.add("show-button"), 50);
+}
 
-    setTimeout(() => {
-        button.classList.add("show-button");
-    }, 50);
+/** Hides a visible button. */
+function hideButton(button) {
+    button.classList.remove("show-button");
+    button.classList.add("hidden-button");
 }
 
 /**
  * Types text into a subtitle element one character at a time.
- * "\n" in the source string becomes a real line break, since
- * .stats-subtitle uses white-space: pre-line.
+ * "\n" in the source string becomes a real line break because
+ * subtitle elements use white-space: pre-line.
  */
 async function typeSubtitle(element, text, speed = 25) {
+    element.style.visibility = "visible";
     element.textContent = "";
 
     for (let i = 0; i < text.length; i++) {
@@ -267,9 +269,8 @@ async function typeSubtitle(element, text, speed = 25) {
 }
 
 /**
- * Returns a function that updates the bottom-right loading
- * percentage each time it's called, based on how many of the
- * total characters have been "typed" so far.
+ * Returns a function that updates the loading percentage counter
+ * each time it is called, based on total characters to type.
  */
 function createProgressUpdater(totalCharacters) {
     let typedCharacters = 0;
@@ -286,9 +287,7 @@ function createProgressUpdater(totalCharacters) {
    SCREEN TRANSITIONS
    ============================================================ */
 
-/**
- * Shared black-fade transition between two main screens.
- */
+/** Shared black-fade transition between two main screens. */
 async function transitionScreens(fromScreen, fromClass, toScreen, toClass) {
     if (isTransitioning) return;
 
@@ -298,7 +297,10 @@ async function transitionScreens(fromScreen, fromClass, toScreen, toClass) {
     await sleep(BLACK_FADE_MS);
 
     fromScreen.classList.remove(fromClass);
+    fromScreen.setAttribute("aria-hidden", "true");
+
     toScreen.classList.add(toClass);
+    toScreen.setAttribute("aria-hidden", "false");
 
     await sleep(RETURN_FADE_MS);
 
@@ -313,12 +315,13 @@ async function transitionScreens(fromScreen, fromClass, toScreen, toClass) {
 async function showCharacterScreen() {
     if (hasReachedCharacterScreen) return;
 
-    loadingCancelled = true;
+    loadingCancelled          = true;
     hasReachedCharacterScreen = true;
-    isTransitioning = true;
+    isTransitioning           = true;
+
+    characterScreenSubtitle.textContent = "";
 
     fadeBlack.classList.add("black");
-
     await sleep(BLACK_FADE_MS);
 
     loadingScreen.classList.add("fade-out");
@@ -327,26 +330,26 @@ async function showCharacterScreen() {
     characterScreen.classList.add("show-character");
     characterScreen.setAttribute("aria-hidden", "false");
 
-    setTimeout(() => {
-        revealButton(nextBtn);
-    }, 3000);
-
     await sleep(RETURN_FADE_MS);
 
     fadeBlack.classList.remove("black");
     isTransitioning = false;
+
+    await sleep(2000);
+    revealButton(nextBtn);
+
+    await sleep(2000);
+    typeSubtitle(characterScreenSubtitle, characterScreenText);
 }
 
 
 /* ============================================================
    MAIN LOADING SEQUENCE
-   Types out the title and terminal log lines, then hands off
-   to showCharacterScreen(). Can be interrupted at any point
-   by the skip button (loadingCancelled).
+   Types the title and terminal logs, then hands off to
+   showCharacterScreen(). Interruptible via the skip button.
    ============================================================ */
 async function startLoadingSequence() {
-    // Give the user a way to skip the typing animation
-    setTimeout(() => revealButton(skipBtn), 1000);
+    setTimeout(() => revealButton(skipBtn), 1500);
 
     const totalCharacters =
         titleText.length +
@@ -378,7 +381,6 @@ async function startLoadingSequence() {
 
         for (let i = 0; i < line.length; i++) {
             if (loadingCancelled) return;
-
             p.textContent += line[i];
             updateProgress();
             await sleep(20);
@@ -400,23 +402,16 @@ async function startLoadingSequence() {
    SKIP / NEXT / BACK BUTTON EVENTS
    ============================================================ */
 
-// Skip button: jumps directly to the character screen
 skipBtn.addEventListener("click", async () => {
     if (hasReachedCharacterScreen || isTransitioning) return;
     await showCharacterScreen();
 });
 
-// Next button: character screen -> navigation screen
 nextBtn.addEventListener("click", async () => {
     if (isTransitioning) return;
 
     navigationSubtitleIntro1.textContent = "";
     navigationSubtitleIntro2.textContent = "";
-
-    navigationSubtitleOutro1.textContent = "";
-    navigationSubtitleOutro2.textContent = "";
-    navigationSubtitleOutro3.textContent = "";
-    navigationSubtitleOutro4.textContent = "";
 
     await transitionScreens(
         characterScreen,
@@ -425,55 +420,24 @@ nextBtn.addEventListener("click", async () => {
         "show-navigation"
     );
 
-    typeSubtitle(navigationSubtitleIntro1, navigationIntroText1);
+    await typeSubtitle(navigationSubtitleIntro1, navigationIntroText1);
+    await sleep(2200);
 
     navigationSubtitleIntro1.textContent = "";
-    await typeSubtitle(artifactsSubtitleOutro, artifactsOutroText);
-    await sleep(600);
+    navigationSubtitleIntro1.style.visibility = "hidden";
+    await typeSubtitle(navigationSubtitleIntro2, navigationIntroText2);
+    await sleep(2000);
 
-    typeSubtitle(artifactsSubtitleIntro2, artifactsIntroText2);
+    navigationSubtitleIntro2.style.visibility = "hidden";
 
-    backBtn.classList.remove("show-button");
-    backBtn.classList.add("hidden-button");
-
-    setTimeout(() => {
-        revealButton(backBtn);
-    }, 3000);
+    hideButton(backBtn);
+    setTimeout(() => revealButton(backBtn), 3000);
 });
 
-artifactsBtn.addEventListener("click", async () => {
-
-    artifactsSubtitleIntro.textContent = "";
-    artifactsSubtitleOutro.textContent = "";
-
-    await openArchiveModule(artifactsModule, [
-        "> OPENING LOST_ARTIFACTS.EXE",
-        "> SCANNING ARCHIVES...",
-        "> RECOVERING IMAGES..."
-    ]);
-
-    typeSubtitle(artifactsSubtitleIntro, artifactsIntroText);
-});
-
-artifactsBackBtn.addEventListener("click", async () => {
-
-    statsSubtitleIntro.textContent = "";
-    await typeSubtitle(artifactsSubtitleOutro, artifactsOutroText);
-    await sleep(600);
-
-    await closeArchiveModule(artifactsModule, [
-        "> CLOSING LOST_ARTIFACTS.EXE",
-        "> RETURNING TO ARCHIVE..."
-    ]);
-});
-
-
-// Back button: navigation screen -> character screen
 backBtn.addEventListener("click", async () => {
     if (isTransitioning) return;
 
-    backBtn.classList.remove("show-button");
-    backBtn.classList.add("hidden-button");
+    hideButton(backBtn);
 
     await transitionScreens(
         navigationScreen,
@@ -489,8 +453,8 @@ backBtn.addEventListener("click", async () => {
    ============================================================ */
 
 /**
- * Plays a typing animation inside the full-screen module loader
- * overlay. Used both when opening and closing a module.
+ * Plays a typing animation inside the full-screen module loader.
+ * Used both when opening and closing a module.
  */
 async function openModule(lines) {
     moduleLoader.classList.add("active");
@@ -504,18 +468,15 @@ async function openModule(lines) {
             p.textContent += line[i];
             await sleep(20);
         }
-        await sleep(300);
+        await sleep(150);
     }
 
-    await sleep(700);
+    await sleep(300);
     moduleLoader.classList.remove("active");
-    await sleep(500); // wait for loader fade-out to finish
+    await sleep(300);
 }
 
-/**
- * Navigation screen -> archive module, with a loading animation
- * and black-fade transition in between.
- */
+/** Navigation screen → archive module with black-fade transition. */
 async function openArchiveModule(moduleElement, loadingLines) {
     await openModule(loadingLines);
 
@@ -523,16 +484,16 @@ async function openArchiveModule(moduleElement, loadingLines) {
     await sleep(BLACK_FADE_MS);
 
     navigationScreen.classList.remove("show-navigation");
+    navigationScreen.setAttribute("aria-hidden", "true");
+
     moduleElement.classList.add("show-module");
+    moduleElement.setAttribute("aria-hidden", "false");
 
     await sleep(RETURN_FADE_MS);
     fadeBlack.classList.remove("black");
 }
 
-/**
- * Archive module -> navigation screen, with a closing animation
- * and black-fade transition in between.
- */
+/** Archive module → navigation screen with black-fade transition. */
 async function closeArchiveModule(moduleElement, closingLines) {
     await openModule(closingLines);
 
@@ -540,7 +501,10 @@ async function closeArchiveModule(moduleElement, closingLines) {
     await sleep(BLACK_FADE_MS);
 
     moduleElement.classList.remove("show-module");
+    moduleElement.setAttribute("aria-hidden", "true");
+
     navigationScreen.classList.add("show-navigation");
+    navigationScreen.setAttribute("aria-hidden", "false");
 
     await sleep(RETURN_FADE_MS);
     fadeBlack.classList.remove("black");
@@ -551,7 +515,8 @@ async function closeArchiveModule(moduleElement, closingLines) {
    STATS MODULE EVENTS
    ============================================================ */
 statsBtn.addEventListener("click", async () => {
-    // Reset subtitles each time the module is (re)opened
+    if (isPlayingOutro) return;
+
     statsSubtitleIntro.textContent = "";
     statsSubtitleOutro.textContent = "";
 
@@ -561,13 +526,14 @@ statsBtn.addEventListener("click", async () => {
         "> PROFILE LOADED"
     ]);
 
-    // Type out the intro subtitle now that the module is visible
     typeSubtitle(statsSubtitleIntro, statsIntroText);
 });
 
 statsBackBtn.addEventListener("click", async () => {
-    // Hide the intro subtitle, then reveal the outro subtitle
-    // before leaving the module
+    // BUG FIX: isPlayingOutro was never set to true — guard never activated
+    isPlayingOutro = true;
+
+    statsSubtitleIntro.style.visibility = "hidden";
     statsSubtitleIntro.textContent = "";
     await typeSubtitle(statsSubtitleOutro, statsOutroText);
     await sleep(600);
@@ -576,12 +542,17 @@ statsBackBtn.addEventListener("click", async () => {
         "> CLOSING STATS.TXT",
         "> RETURNING TO ARCHIVE..."
     ]);
+
+    statsSubtitleOutro.textContent = "";
+    isPlayingOutro = false;
 });
+
 
 /* ============================================================
    ARTIFACTS MODULE EVENTS
    ============================================================ */
 artifactsBtn.addEventListener("click", async () => {
+    if (isPlayingOutro) return;
 
     artifactsSubtitleIntro.textContent = "";
     artifactsSubtitleOutro.textContent = "";
@@ -596,8 +567,11 @@ artifactsBtn.addEventListener("click", async () => {
 });
 
 artifactsBackBtn.addEventListener("click", async () => {
+    // BUG FIX: isPlayingOutro guard activated
+    isPlayingOutro = true;
 
-    statsSubtitleIntro.textContent = "";
+    artifactsSubtitleIntro.style.visibility = "hidden";
+    artifactsSubtitleIntro.textContent = "";
     await typeSubtitle(artifactsSubtitleOutro, artifactsOutroText);
     await sleep(600);
 
@@ -605,77 +579,9 @@ artifactsBackBtn.addEventListener("click", async () => {
         "> CLOSING LOST_ARTIFACTS.EXE",
         "> RETURNING TO ARCHIVE..."
     ]);
-});
 
-
-/* ============================================================
-   LETTER MODULE EVENTS
-   ============================================================ */
-letterBtn.addEventListener("click", async () => {
-
-    letterSubtitleIntro.textContent = "";
-    letterSubtitleOutro.textContent = "";
-
-    await openArchiveModule(letterModule, [
-        "> OPENING LETTER.TXT",
-        "> VERIFYING RECIPIENT...",
-        "> ACCESS GRANTED"
-    ]);
-
-    typeSubtitle(letterSubtitleIntro, letterIntroText);
-});
-
-letterBackBtn.addEventListener("click", async () => {
-
-    letterSubtitleIntro.textContent = "";
-    await typeSubtitle(letterSubtitleOutro, letterOutroText);
-    await sleep(600);
-
-    await closeArchiveModule(letterModule, [
-        "> CLOSING LETTER.TXT",
-        "> RETURNING TO ARCHIVE..."
-    ]);
-});
-
-/* ============================================================
-   MEMORIES MODULE EVENTS
-   ============================================================ */
-memoriesBtn.addEventListener("click", async () => {
-
-    memoriesSubtitleIntro.textContent = "";
-    memoriesSubtitleOutro.textContent = "";
-
-    await openArchiveModule(memoriesModule, [
-        "> OPENING MEMORIES.EXE",
-        "> SCANNING MEMORY RECORDS...",
-        "> 12 MEMORY RECORDS RECOVERED"
-    ]);
-
-    typeSubtitle(memoriesSubtitleIntro, memoriesIntroText);
-});
-
-memoriesBackBtn.addEventListener("click", async () => {
-
-    memoriesSubtitleIntro.textContent = "";
-    await typeSubtitle(memoriesSubtitleOutro, memoriesOutroText);
-    await sleep(600);
-
-    await closeArchiveModule(memoriesModule, [
-        "> CLOSING MEMORIES.EXE",
-        "> RETURNING TO ARCHIVE..."
-    ]);
-});
-
-// Clicking a memory record highlights it and loads its
-// author/content into the viewer on the right
-memoryRecords.forEach(record => {
-    record.addEventListener("click", () => {
-        memoryRecords.forEach(r => r.classList.remove("active"));
-        record.classList.add("active");
-
-        memoryAuthor.textContent = `AUTHOR IDENTIFIED: ${record.dataset.author.toUpperCase()}`;
-        memoryContent.textContent = record.dataset.memory;
-    });
+    artifactsSubtitleOutro.textContent = "";
+    isPlayingOutro = false;
 });
 
 
@@ -683,6 +589,7 @@ memoryRecords.forEach(record => {
    SECRET FILE MODULE EVENTS
    ============================================================ */
 fileBtn.addEventListener("click", async () => {
+    if (isPlayingOutro) return;
 
     fileSubtitleIntro.textContent = "";
     fileSubtitleOutro.textContent = "";
@@ -697,39 +604,168 @@ fileBtn.addEventListener("click", async () => {
 });
 
 fileBackBtn.addEventListener("click", async () => {
+    // BUG FIX: isPlayingOutro guard activated
+    isPlayingOutro = true;
 
+    fileSubtitleIntro.style.visibility = "hidden";
     fileSubtitleIntro.textContent = "";
     await typeSubtitle(fileSubtitleOutro, fileOutroText);
     await sleep(300);
 
-    // secretPlayer.pause();
-    // secretPlayer.currentTime = 0;
     secretVideo.pause();
     secretVideo.currentTime = 0;
-    secretVideo.classList.remove(
-        "active"
-    );
+    secretVideo.classList.remove("active");
 
     stopSecretAudio();
 
-    // Resume background music once the recording stops
-    if (musicStarted && bgMusic.paused) {
-        bgMusic.play();
-    }
+    if (musicStarted && bgMusic.paused) bgMusic.play();
 
     await closeArchiveModule(fileModule, [
         "> CLOSING SECRET_FILE.ENC",
         "> RETURNING TO ARCHIVE..."
     ]);
 
+    fileSubtitleOutro.textContent = "";
+    isPlayingOutro = false;
 });
+
+
+/* ============================================================
+   MEMORIES MODULE EVENTS
+   ============================================================ */
+memoriesBtn.addEventListener("click", async () => {
+    if (isPlayingOutro) return;
+
+    memoriesSubtitleIntro.textContent = "";
+    memoriesSubtitleOutro.textContent = "";
+
+    await openArchiveModule(memoriesModule, [
+        "> OPENING MEMORIES.EXE",
+        "> SCANNING MEMORY RECORDS...",
+        "> 12 MEMORY RECORDS RECOVERED"
+    ]);
+
+    typeSubtitle(memoriesSubtitleIntro, memoriesIntroText);
+});
+
+memoriesBackBtn.addEventListener("click", async () => {
+    // BUG FIX: isPlayingOutro guard activated
+    isPlayingOutro = true;
+
+    memoriesSubtitleIntro.style.visibility = "hidden";
+    memoriesSubtitleIntro.textContent = "";
+    await typeSubtitle(memoriesSubtitleOutro, memoriesOutroText);
+    await sleep(600);
+
+    await closeArchiveModule(memoriesModule, [
+        "> CLOSING MEMORIES.EXE",
+        "> RETURNING TO ARCHIVE..."
+    ]);
+
+    memoriesSubtitleOutro.textContent = "";
+    isPlayingOutro = false;
+});
+
+// Clicking a memory record highlights it and loads its
+// author/content into the viewer on the right.
+memoryRecords.forEach(record => {
+    record.addEventListener("click", () => {
+        memoryRecords.forEach(r => r.classList.remove("active"));
+        record.classList.add("active");
+
+        memoryAuthor.textContent  = `AUTHOR IDENTIFIED: ${record.dataset.author.toUpperCase()}`;
+        memoryContent.textContent = record.dataset.memory;
+    });
+});
+
+// Load the first memory record by default so the viewer isn't empty on open
+const firstRecord = document.querySelector(".memory-record");
+if (firstRecord) {
+    memoryAuthor.textContent  = `AUTHOR IDENTIFIED: ${firstRecord.dataset.author.toUpperCase()}`;
+    memoryContent.textContent = firstRecord.dataset.memory;
+}
+
+
+/* ============================================================
+   LETTER MODULE EVENTS
+   ============================================================ */
+letterBtn.addEventListener("click", async () => {
+    if (isPlayingOutro) return;
+
+    letterSubtitleIntro.textContent = "";
+    letterSubtitleOutro.textContent = "";
+
+    await openArchiveModule(letterModule, [
+        "> OPENING LETTER.TXT",
+        "> VERIFYING RECIPIENT...",
+        "> ACCESS GRANTED"
+    ]);
+
+    typeSubtitle(letterSubtitleIntro, letterIntroText);
+});
+
+letterBackBtn.addEventListener("click", async () => {
+    // BUG FIX: isPlayingOutro guard activated
+    isPlayingOutro = true;
+
+    letterSubtitleIntro.style.visibility = "hidden";
+    letterSubtitleIntro.textContent = "";
+    await typeSubtitle(letterSubtitleOutro, letterOutroText);
+    await sleep(600);
+
+    await closeArchiveModule(letterModule, [
+        "> CLOSING LETTER.TXT",
+        "> RETURNING TO ARCHIVE..."
+    ]);
+
+    letterSubtitleOutro.textContent = "";
+    isPlayingOutro = false;
+
+    // Reveal the "Memory Revival Complete" button after finishing the letter
+    revealButton(navNextBtn);
+});
+
+
+/* ============================================================
+   NAV NEXT BUTTON — navigation screen → closing screen
+   ============================================================ */
+navNextBtn.addEventListener("click", async () => {
+    if (isTransitioning) return;
+
+    isTransitioning = true;
+    hideButton(navNextBtn);
+
+    const closingSubtitleEl = document.getElementById("closing-subtitle");
+    closingSubtitleEl.textContent = "";
+
+    await openModule([
+        "> FINALISING MEMORY RECOVERY...",
+        "> GENERATING REPORT..."
+    ]);
+
+    fadeBlack.classList.add("black");
+    await sleep(BLACK_FADE_MS);
+
+    // BUG FIX: was targeting "closing-module" which doesn't exist.
+    // Must match the corrected id="closing-screen" in index.html.
+    navigationScreen.classList.remove("show-navigation");
+    navigationScreen.setAttribute("aria-hidden", "true");
+
+    const closingScreen = document.getElementById("closing-screen");
+    closingScreen.classList.add("show-closing");
+    closingScreen.setAttribute("aria-hidden", "false");
+
+    await sleep(RETURN_FADE_MS);
+    fadeBlack.classList.remove("black");
+    isTransitioning = false;
+
+    await sleep(800);
+    typeSubtitle(closingSubtitleEl, closingSubtitle);
+});
+
 
 /* ============================================================
    STARTUP
    ============================================================ */
-
-// Begin the loading screen typing animation
 startLoadingSequence();
-
-// Start background music on the user's first click anywhere
 document.addEventListener("click", startMusic, { once: true });

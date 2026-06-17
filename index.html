@@ -9,15 +9,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Cutive+Mono&family=Fjalla+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet"
-    >
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="assets/icon.png">
 </head>
 <body>
 
     <!-- Loading screen -->
-    <section class="loading-screen" id="loading-screen">
+    <section class="loading-screen" id="loading-screen" aria-label="Loading">
         <div class="heading">
             <h1>WELCOME BACK</h1>
             <p id="loading-text"></p>
@@ -30,21 +30,21 @@
                 Loading Character Data: 0%
             </div>
 
-            <button id="skip-btn" class="hidden-button" type="button">
-                SKIP
+            <button id="skip-btn" class="hidden-button" type="button" aria-label="Skip loading sequence">
+                SKIP ›
             </button>
         </div>
-
     </section>
 
     <!-- Character screen -->
+    <!-- BUG FIX: aria-hidden starts true, toggled in JS -->
     <section id="character-screen" aria-hidden="true">
         <div class="character-ui">
             <div class="left-panel">
                 <h2>CHARACTER SELECT</h2>
 
-                <ul>
-                    <li class="active">AIDYN</li>
+                <ul role="list">
+                    <li class="active" aria-current="true">AIDYN</li>
                     <li>DINA</li>
                     <li>JESSE</li>
                     <li>TOMMY</li>
@@ -53,19 +53,19 @@
 
                 <h2>CHALLENGE</h2>
 
-                <p>The outbreak took many things. <br><br>
+                <p>The outbreak took many things.<br><br>
                     Cities.<br>
                     Homes.<br>
                     Entire histories.<br><br>
-                    What remains of your story has been scattered across abandoned archives.<br>
-                    Recovered photographs, music recordings, journal entries, and witness <br>
-                    reports suggest that you were once an important member of a community.<br>
+                    What remains of your story has been scattered across abandoned archives.
+                    Recovered photographs, music recordings, journal entries, and witness
+                    reports suggest that you were once an important member of a community.
                 </p>
                 <p>
-                    Your task is simple: <br><br>
-                    Recover the missing fragments. <br>
-                    Remember who you were. <br>
-                    And discover why so many people were glad you survived another year. <br>
+                    Your task is simple:<br><br>
+                    Recover the missing fragments.<br>
+                    Remember who you were.<br>
+                    And discover why so many people were glad you survived another year.
                 </p>
             </div>
 
@@ -93,26 +93,26 @@
 
             <div class="bottom-controls">
                 <button id="next-btn" class="hidden-button" type="button">
-                    ACCESS ARCHIVE →
+                    ACCESS ARCHIVE ›
                 </button>
             </div>
+
+            <p id="character-screen-subtitle" class="character-screen-subtitle" aria-live="polite"></p>
         </div>
     </section>
 
     <!-- Black transition overlay -->
     <div id="fade-black" aria-hidden="true"></div>
 
-    <div id="module-loader">
+    <!-- Module loader overlay -->
+    <div id="module-loader" role="status" aria-live="polite" aria-label="Loading module">
         <div id="module-terminal"></div>
     </div>
 
     <!-- Navigation screen -->
+    <!-- BUG FIX: aria-hidden="true" added — toggled in JS -->
     <section id="navigation-screen" aria-hidden="true">
         <div class="navigation-overlay">
-            <button id="back-btn" class="hidden-button" type="button">
-                ← CHARACTER SCREEN
-            </button>
-
             <h1>AIDYN'S ARCHIVE</h1>
 
             <nav aria-label="Archive navigation">
@@ -124,19 +124,23 @@
             </nav>
         </div>
 
-        <p id="navigation-subtitle-intro1" class="navigation-subtitle"></p>
-        <p id="navigation-subtitle-intro2" class="navigation-subtitle"></p>
-        <p id="navigation-subtitle-outro1" class="navigation-subtitle navigation-subtitle-outro1"></p>
-        <p id="navigation-subtitle-outro2" class="navigation-subtitle navigation-subtitle-outro2"></p>
-        <p id="navigation-subtitle-outro3" class="navigation-subtitle navigation-subtitle-outro3"></p>
-        <p id="navigation-subtitle-outro4" class="navigation-subtitle navigation-subtitle-outro4"></p>
+        <button id="back-btn" class="hidden-button" type="button">
+            ‹ CHARACTER SCREEN
+        </button>
+
+        <p id="navigation-subtitle-intro1" class="navigation-subtitle" aria-live="polite"></p>
+        <p id="navigation-subtitle-intro2" class="navigation-subtitle" aria-live="polite"></p>
+
+        <button id="nav-next-btn" class="hidden-button" type="button">
+            MEMORY REVIVAL COMPLETE ›
+        </button>
     </section>
 
     <!-- Stats module -->
-    <section id="stats-module">
+    <section id="stats-module" aria-hidden="true">
 
-        <button id="stats-back-btn" class="module-back">
-            ← RETURN TO ARCHIVE
+        <button id="stats-back-btn" class="module-back" type="button">
+            ‹ RETURN TO ARCHIVE
         </button>
 
         <div class="stats-container">
@@ -146,159 +150,155 @@
             <div class="stats-content">
 
                 <div class="stat">
-                    <span>CREATIVITY</span>
-                    <div class="bar">██████████ 100</div>
+                    <span>CREATIVE</span>
+                    <div class="bar" role="meter" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">██████████ 100</div>
                 </div>
 
                 <div class="stat">
-                    <span>CHARISMA</span>
-                    <div class="bar">██████████ 100</div>
+                    <span>COMPASSIONATE</span>
+                    <div class="bar" role="meter" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">████████ 90</div>
                 </div>
 
                 <div class="stat">
-                    <span>CURIOSITY</span>
-                    <div class="bar">██████████ 100</div>
+                    <span>CURIOUS</span>
+                    <div class="bar" role="meter" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">█████████ 95</div>
                 </div>
 
                 <div class="stat">
-                    <span>FUN</span>
-                    <div class="bar">██████████ 100</div>
+                    <span>OVER THINKER</span>
+                    <div class="bar" role="meter" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">███████ 85</div>
                 </div>
 
             </div>
 
             <p>
-
                 --------------------------------<br><br>
-
                 SYSTEM NOTES<br><br>
-
                 Subject survived the apocalypse.<br><br>
-
                 Archive integrity: 100%<br><br>
-
-                Recommendation:<br>
-                Keep around for another year.
-
             </p>
 
         </div>
 
+        <!-- BUG FIX: alt text added -->
         <div class="mugshot-container">
-            <img src="assets/mugshot.jpg">
+            <img src="assets/mugshot.jpg" alt="Subject identification photograph">
         </div>
 
-        <p id="stats-subtitle-intro" class="stats-subtitle"></p>
-        <p id="stats-subtitle-outro" class="stats-subtitle stats-subtitle-outro"></p>
+        <p id="stats-subtitle-intro" class="stats-subtitle" aria-live="polite"></p>
+        <p id="stats-subtitle-outro" class="stats-subtitle stats-subtitle-outro" aria-live="polite"></p>
     </section>
 
     <!-- Lost artifacts -->
-    <section id="artifacts-module">
+    <section id="artifacts-module" aria-hidden="true">
 
-        <button id="artifacts-back-btn" class="module-back">
-            ← RETURN TO ARCHIVE
+        <button id="artifacts-back-btn" class="module-back" type="button">
+            ‹ RETURN TO ARCHIVE
         </button>
+
+        <h1>LOST_ARTIFACTS.EXE</h1>
 
         <div class="artifacts-container">
             <div class="artifact">
-                <img src="artifacts/1.jpeg">
+                <img src="artifacts/1.jpeg" alt="Recovered artifact 1">
             </div>
             <div class="artifact">
-                <img src="artifacts/2.jpeg">
+                <img src="artifacts/2.jpeg" alt="Recovered artifact 2">
             </div>
             <div class="artifact">
-                <img src="artifacts/3.jpeg">
+                <img src="artifacts/3.jpeg" alt="Recovered artifact 3">
             </div>
             <div class="artifact">
-                <img src="artifacts/4.jpeg">
+                <img src="artifacts/4.jpeg" alt="Recovered artifact 4">
             </div>
             <div class="artifact">
-                <img src="artifacts/5.jpeg">
+                <img src="artifacts/5.jpeg" alt="Recovered artifact 5">
             </div>
             <div class="artifact">
-                <img src="artifacts/6.jpeg">
+                <img src="artifacts/6.jpeg" alt="Recovered artifact 6">
             </div>
             <div class="artifact">
-                <img src="artifacts/7.jpeg">
+                <img src="artifacts/7.jpeg" alt="Recovered artifact 7">
             </div>
             <div class="artifact">
-                <img src="artifacts/8.jpeg">
+                <img src="artifacts/8.jpeg" alt="Recovered artifact 8">
             </div>
             <div class="artifact">
-                <img src="artifacts/9.jpeg">
+                <img src="artifacts/9.jpeg" alt="Recovered artifact 9">
             </div>
             <div class="artifact">
-                <img src="artifacts/10.jpeg">
+                <img src="artifacts/10.jpeg" alt="Recovered artifact 10">
             </div>
         </div>
 
-        <p id="artifacts-subtitle-intro" class="artifacts-subtitle"></p>
-        <p id="artifacts-subtitle-outro" class="artifacts-subtitle artifacts-subtitle-outro"></p>
+        <p id="artifacts-subtitle-intro" class="artifacts-subtitle" aria-live="polite"></p>
+        <p id="artifacts-subtitle-outro" class="artifacts-subtitle artifacts-subtitle-outro" aria-live="polite"></p>
     </section>
 
     <!-- Secret File -->
-    <section id="file-module">
-        <video id="secret-video" muted loop playsinline>
+    <section id="file-module" aria-hidden="true">
+        <video id="secret-video" muted loop playsinline aria-hidden="true">
             <source src="assets/background/secret_file.mp4" type="video/mp4">
         </video>
 
-        <button id="file-back-btn" class="module-back">
-            ← RETURN TO ARCHIVE
+        <button id="file-back-btn" class="module-back" type="button">
+            ‹ RETURN TO ARCHIVE
         </button>
 
         <h1>SECRET_FILE.ENC</h1>
 
         <p>
-            Decryption successful.
+            Decryption successful.<br>
             5 audio recordings recovered.
         </p>
 
         <div class="file-container">
             <div>
-                <img class="music-file" src="assets/cassette/cassette1.png" data-song="assets/music/song1.mp3">
+                <img class="music-file" src="assets/cassette/cassette1.png" alt="Cassette recording 1" data-song="assets/music/song1.mp3">
                 <p>REC_001.mp3</p>
             </div>
             <div>
-                <img class="music-file" src="assets/cassette/cassette2.png" data-song="assets/music/song2.mp3">
+                <img class="music-file" src="assets/cassette/cassette2.png" alt="Cassette recording 2" data-song="assets/music/song2.mp3">
                 <p>REC_002.mp3</p>
             </div>
             <div>
-                <img class="music-file" src="assets/cassette/cassette3.png" data-song="assets/music/song3.mp3">
+                <img class="music-file" src="assets/cassette/cassette3.png" alt="Cassette recording 3" data-song="assets/music/song3.mp3">
                 <p>REC_003.mp3</p>
             </div>
             <div>
-                <img class="music-file" src="assets/cassette/cassette4.png" data-song="assets/music/song4.mp3">
+                <img class="music-file" src="assets/cassette/cassette4.png" alt="Cassette recording 4" data-song="assets/music/song4.mp3">
                 <p>REC_004.mp3</p>
             </div>
             <div>
-                <img class="music-file" src="assets/cassette/cassette5.png" data-song="assets/music/song5.mp3">
+                <img class="music-file" src="assets/cassette/cassette5.png" alt="Cassette recording 5" data-song="assets/music/song5.mp3">
                 <p>REC_005.mp3</p>
             </div>
         </div>
 
-         <p id="file-subtitle-intro" class="file-subtitle"></p>
-        <p id="file-subtitle-outro" class="file-subtitle file-subtitle-outro"></p>
+        <p id="file-subtitle-intro" class="file-subtitle" aria-live="polite"></p>
+        <p id="file-subtitle-outro" class="file-subtitle file-subtitle-outro" aria-live="polite"></p>
     </section>
 
     <!-- Memories -->
-    <section id="memories-module">
+    <section id="memories-module" aria-hidden="true">
 
-        <button id="memories-back-btn" class="module-back">
-            ← RETURN TO ARCHIVE
+        <button id="memories-back-btn" class="module-back" type="button">
+            ‹ RETURN TO ARCHIVE
         </button>
 
         <h1>MEMORIES.EXE</h1>
 
+        <!-- BUG FIX: count corrected from 10 to 12 -->
         <p class="memory-subtitle">
-            RECOVERED MEMORY RECORDS: 10
+            RECOVERED MEMORY RECORDS: 12
         </p>
 
         <div class="memory-layout">
-            <div class="memory-list">
+            <div class="memory-list" role="list" aria-label="Memory records">
 
                 <button class="memory-record active"
                     data-author="Shathe"
-                    data-memory="We were supposed to study for an exam, but somehow ended up talking for six hours straight about everything except studying. I still remember laughing so hard my stomach hurt.">
+                    data-memory="I was roommates with Akniet, and on the second or third day of uni, I was sleeping when Aidyn knocked on the door while my roommate was taking a shower. I had just woken up from sleep, my face was all swollen, and I was grumpy in the morning. She had never seen me before, so when I opened the door and asked what she wanted—well, what I meant to say was 'how can I help you?' My English wasn't that good and I couldn't express myself properly. So I guess she got scared of me and got the wrong first impression. I told her that Akniet was in the shower and that she could come back later. Then for some reason, Aidyn and her roommate invited me over to get to know me more and give me another chance to fix that first impression. We spent the whole evening getting to know each other and laughing. We ate fried chicken, watched random movies, and just talked. I even tried vaping for the first time. The next day we met again, and I told her about my plans. It was my first time in Kuala Lumpur, and I was telling her all about it. For the next few days, we were hanging out every day, sitting on the bed and talking nonstop about our lives. Yeah, I miss those days.">
                     MEMORY_001.LOG
                 </button>
 
@@ -334,13 +334,13 @@
 
                 <button class="memory-record"
                     data-author="Amina"
-                    data-memory="I still laugh whenever I remember that ridiculous road trip.">
+                    data-memory="One of my brightest memories with Aidyn is from the beginning of this semester, when we randomly ran into each other at Lucky Cup. I was wearing my glasses, it was one of the first times I had gone outside in them, and I was really self-conscious about it. Aidyn complimented me, saying they really suited me and looked beautiful. After that moment, I started wearing them so much more often, and now I can't imagine myself without them 🥹 It's such a small detail, but that's exactly where true friendship shows itself, when someone notices you and says just the right thing at the right time. Thank you for being you, attentive, warm, and sincere. Happy birthday, Aidyn! ❤️😘🫶🏻">
                     MEMORY_007.LOG
                 </button>
 
                 <button class="memory-record"
                     data-author="Malika"
-                    data-memory="Somehow every random hangout became a core memory.">
+                    data-memory="My dear more than best friend, my favourite person in the world, Aidynka, I love you so much. I am so grateful that whenever people around us changed, we still sticked together to the point when we live together for already 2 years. Our school days, your endless support, your love and kindness, your personality, I love each corner of your soul. We saw each other on our lowest and highest, but what does even highest mean? I want to see us shining on the pedestal of the highest success. I am so proud of you, love you endlessly, your Malikusha">
                     MEMORY_008.LOG
                 </button>
 
@@ -352,13 +352,13 @@
 
                 <button class="memory-record"
                     data-author="Momo"
-                    data-memory="If you're reading this, happy birthday. Thank you for being part of so many people's favourite memories.">
+                    data-memory="Aidyn always stands out, when people usually say this, they mean that one is exceptionally beautiful, or kind or perhaps intelligent. But when I say it, I do mean all the aforementioned things, yes, but moreso that she is a gift to me. I met her a semester ago, she was confident, eloquent, unwavering in what she believed in. I remember once we were organising for some group work and she stated bluntly, 'Momo, would you like to be friends?' I was completely taken aback, not by the directness of the statement, in fact this is one of the things I love about Aidyn, but by the fact that my admiration had been reciprocated, that there was a chance that whatever her beautiful soul was made of, we were both made of the same stuff. You see, there is only one way you become someone like Aidyn, you see the world for what it is, and you make the choice to be better. It takes remarkable courage, kindness and simply the act of being formidable to look at the world for what it is, and choosing to be kind, to hope for more, to pour light into others. Happy birthday Aidyn, I don't think words can express how much joy you bring all of us. We see you for who you are, your realness, your sovereignty and if in any way we can aid you on the path that you are on, giving something to you will be the greatest gift I can give back to you. I don't really believe in higher powers, but I thank the universe whenever I see you, that it conspired….somewhow.. the way it did to bring you here, and that you made the conscious choice to be who you are.">
                     MEMORY_010.LOG
                 </button>
 
                 <button class="memory-record"
                     data-author="Daniya"
-                    data-memory="My favorite memory is the first time I met Aidyn , when we met in person. I was very excited to see her, we originally planned to go to sunway, but then I randomly said that I hadn't been to Batu caves, and we went to Batu caves. It was very funny and unexpected to me that she supported my idea so simply and immediately we implemented it. Then the weather was bad on batu caves, rain and slush, we wanted to see the monkeys, but we didn't see them, BUT instead we saw a rooster and chickens there aahah. She helped me up the stairs because it was very slippery, and we took photos with my digital camera. After that, we took the women's subway home late at night. It was our FIRST meeting , and a really fun day!">
+                    data-memory="My favorite memory is the first time I met Aidyn, when we met in person. I was very excited to see her, we originally planned to go to sunway, but then I randomly said that I hadn't been to Batu caves, and we went to Batu caves. It was very funny and unexpected to me that she supported my idea so simply and immediately we implemented it. Then the weather was bad on batu caves, rain and slush, we wanted to see the monkeys, but we didn't see them, BUT instead we saw a rooster and chickens there aahah. She helped me up the stairs because it was very slippery, and we took photos with my digital camera. After that, we took the women's subway home late at night. It was our FIRST meeting, and a really fun day!">
                     MEMORY_011.LOG
                 </button>
 
@@ -367,31 +367,36 @@
                     data-memory="If you're reading this, happy birthday. Thank you for being part of so many people's favourite memories.">
                     MEMORY_012.LOG
                 </button>
+
             </div>
 
-            <div class="memory-viewer">
-
-                <h2 id="memory-author">AUTHOR IDENTIFIED: JESS</h2>
-
-                <p id="memory-content">
-                    We were supposed to study for an exam, but somehow ended up talking for six hours straight about everything except studying. I still remember laughing so hard my stomach hurt.
-                </p>
+            <div class="memory-viewer" role="region" aria-label="Memory content viewer">
+                <h2 id="memory-author">AUTHOR IDENTIFIED: SHATHE</h2>
+                <p id="memory-content"></p>
             </div>
 
         </div>
 
-        <p id="memories-subtitle-intro" class="memories-subtitle"></p>
-        <p id="memories-subtitle-outro" class="memories-subtitle memories-subtitle-outro"></p>
+        <p id="memories-subtitle-intro" class="memories-subtitle" aria-live="polite"></p>
+        <p id="memories-subtitle-outro" class="memories-subtitle memories-subtitle-outro" aria-live="polite"></p>
     </section>
 
     <!-- Letter -->
-    <section id="letter-module">
-        <button id="letter-back-btn" class="module-back">
-            ← RETURN TO ARCHIVE
+    <section id="letter-module" aria-hidden="true">
+        <button id="letter-back-btn" class="module-back" type="button">
+            ‹ RETURN TO ARCHIVE
         </button>
 
-        <p id="letter-subtitle-intro" class="letter-subtitle"></p>
-        <p id="letter-subtitle-outro" class="letter-subtitle letter-subtitle-outro"></p>
+        <p id="letter-subtitle-intro" class="letter-subtitle" aria-live="polite"></p>
+        <p id="letter-subtitle-outro" class="letter-subtitle letter-subtitle-outro" aria-live="polite"></p>
+    </section>
+
+    <!-- Closing screen -->
+    <!-- BUG FIX: was id="closing-module", CSS and JS both target "closing-screen" -->
+    <section id="closing-screen" aria-hidden="true">
+        <div class="closing-overlay">
+            <p id="closing-subtitle" class="closing-subtitle" aria-live="polite"></p>
+        </div>
     </section>
 
     <audio id="bg-music" loop>
