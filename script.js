@@ -31,27 +31,13 @@ const navigationSubtitleIntro1  = document.getElementById("navigation-subtitle-i
 const navigationSubtitleIntro2  = document.getElementById("navigation-subtitle-intro2");
 
 const navigationIntroText1 = "The following files were salvaged from the remains of the old world.\nEach file may contain fragments of your missing memories.";
-const navigationIntroText2 = "Review all available records to maximize recovery success.\nCurrent Memory Integrity: 12%";
+const navigationIntroText2 = "Review all available records to maximize recovery success.\nCurrent Memory Integrity: 18%";
 
 const fadeBlack  = document.getElementById("fade-black");
 
 const nextBtn    = document.getElementById("next-btn");
 const backBtn    = document.getElementById("back-btn");
 const navNextBtn = document.getElementById("nav-next-btn");
-
-// BUG FIX: removed stray leading space before "Happy Birthday"
-const closingSubtitle =
-    "Subject Identity Restored. Archive Integrity: 100%\n" +
-    "Reviewing recovered records...\n" +
-    "Analysis Complete. The recovered records indicate that:\n" +
-    "Subject formed meaningful connections with numerous individuals.\n" +
-    "Subject demonstrated exceptional creativity.\n" +
-    "Subject consistently improved the lives of those around her.\n" +
-    "Subject's presence was valued.\n" +
-    "Additional note discovered. Source: Unknown.\n" +
-    "\"Whenever you begin to doubt yourself, return to this archive.\"\n" +
-    "Welcome back, Aidyn. Memory recovery complete.\n" +
-    "Happy Birthday ;)";
 
 
 /* ============================================================
@@ -105,7 +91,7 @@ const memoryContent          = document.getElementById("memory-content");
 const memoriesSubtitleIntro  = document.getElementById("memories-subtitle-intro");
 const memoriesSubtitleOutro  = document.getElementById("memories-subtitle-outro");
 const memoriesIntroText      = "Memory corruption prevented direct access to many events.\nFortunately, the people who experienced those moments still remember.\nReviewing these records may assist recovery.";
-const memoriesOutroText      = "Analysis complete. A consistent pattern was detected: The subject\nwas valued. The subject was remembered. The subject was loved.\nMemory Integrity Increased.";
+const memoriesOutroText      = "Analysis complete. A consistent pattern was detected: The subject\nwas valued.\nMemory Integrity Increased.";
 
 // LETTER module
 const letterModule         = document.getElementById("letter-module");
@@ -258,7 +244,7 @@ function hideButton(button) {
  * "\n" in the source string becomes a real line break because
  * subtitle elements use white-space: pre-line.
  */
-async function typeSubtitle(element, text, speed = 25) {
+async function typeSubtitle(element, text, speed = 35) {
     element.style.visibility = "visible";
     element.textContent = "";
 
@@ -642,7 +628,7 @@ memoriesBtn.addEventListener("click", async () => {
     await openArchiveModule(memoriesModule, [
         "> OPENING MEMORIES.EXE",
         "> SCANNING MEMORY RECORDS...",
-        "> 12 MEMORY RECORDS RECOVERED"
+        "> 11 MEMORY RECORDS RECOVERED"
     ]);
 
     typeSubtitle(memoriesSubtitleIntro, memoriesIntroText);
@@ -735,9 +721,6 @@ navNextBtn.addEventListener("click", async () => {
     isTransitioning = true;
     hideButton(navNextBtn);
 
-    const closingSubtitleEl = document.getElementById("closing-subtitle");
-    closingSubtitleEl.textContent = "";
-
     await openModule([
         "> FINALISING MEMORY RECOVERY...",
         "> GENERATING REPORT..."
@@ -746,8 +729,6 @@ navNextBtn.addEventListener("click", async () => {
     fadeBlack.classList.add("black");
     await sleep(BLACK_FADE_MS);
 
-    // BUG FIX: was targeting "closing-module" which doesn't exist.
-    // Must match the corrected id="closing-screen" in index.html.
     navigationScreen.classList.remove("show-navigation");
     navigationScreen.setAttribute("aria-hidden", "true");
 
@@ -759,9 +740,281 @@ navNextBtn.addEventListener("click", async () => {
     fadeBlack.classList.remove("black");
     isTransitioning = false;
 
-    await sleep(800);
-    typeSubtitle(closingSubtitleEl, closingSubtitle);
+    await sleep(600);
+    startClosingSequence();
 });
+
+
+/* ============================================================
+   CLOSING SEQUENCE ENGINE
+   Phases:
+     1 → typewriter: archive analysis text (green)
+     2 → "ARCHIVE SESSION TERMINATED" banner fades in, screen dims
+     3 → glitch + red ERROR text types in
+     4 → recovered personal message fades in and types out
+     5 → <3 heart appears
+     6 → action buttons appear
+     7 → secret overlay (on demand)
+   ============================================================ */
+
+const CS_ARCHIVE_TEXT =
+    "Subject Identity Restored. Archive Integrity: 100%\n" +
+    "Reviewing recovered records...\n\n" +
+    "Analysis Complete. The recovered records indicate that:\n" +
+    "Subject formed meaningful connections with numerous individuals.\n" +
+    "Subject demonstrated exceptional creativity.\n" +
+    "Subject consistently improved the lives of those around her.\n" +
+    "Subject's presence was valued.\n\n" +
+    "Additional note discovered. Source: Unknown.\n" +
+    "\"Whenever you begin to doubt yourself, return to this archive.\"\n\n" +
+    "Welcome back, Aidyn.\n" +
+    "Memory recovery complete.";
+
+const CS_ERROR_TEXT =
+    "ERROR\n" +
+    "Unauthorized message detected.\n" +
+    "Attempting recovery...";
+
+const CS_HIDDEN_MESSAGE =
+    "Aidyn,\n\n" +
+    "I built this archive because sometimes we forget how much we matter to the people around us.\n\n" +
+    "On difficult days, when your mind tells you otherwise,\n" +
+    "I hope you'll remember what was found here.\n\n" +
+    "You are loved. You are appreciated.\n" +
+    "And you have made this world better simply by being in it.\n\n" +
+    "Happy Birthday.";
+
+const CS_HEART = "<3";
+
+const CS_SECRET_NOTE =
+    "Archive Note #001\n\n" +
+    "The system was never designed to forget you.";
+
+/**
+ * Types text character-by-character into a span element,
+ * with natural pauses at punctuation and newlines.
+ */
+async function csTypewriter(spanEl, text, speed = 22) {
+    spanEl.textContent = "";
+    for (let i = 0; i < text.length; i++) {
+        spanEl.textContent += text[i];
+
+        // Auto-scroll the viewport
+        const viewport = document.getElementById("cs-viewport");
+        if (viewport) viewport.scrollTop = viewport.scrollHeight;
+
+        const ch = text[i];
+        let delay = speed + Math.random() * 12;
+        if (ch === "\n")                          delay = 120 + Math.random() * 80;
+        else if (ch === "." || ch === "!" || ch === "?") delay = 90 + Math.random() * 60;
+        else if (ch === ",")                      delay = 50 + Math.random() * 30;
+
+        await sleep(delay);
+    }
+}
+
+function startClosingSequence() {
+    // Grab all the elements
+    const dimmer        = document.getElementById("cs-dimmer");
+    const blockArchive  = document.getElementById("cs-block-archive");
+    const archiveText   = document.getElementById("cs-archive-text");
+    const cursorArchive = document.getElementById("cs-cursor-archive");
+
+    const terminated    = document.getElementById("cs-terminated");
+
+    const errorBlock    = document.getElementById("cs-error-block");
+    const errorText     = document.getElementById("cs-error-text");
+    const cursorError   = document.getElementById("cs-cursor-error");
+
+    const recoveredBlock = document.getElementById("cs-recovered-block");
+    const messageText    = document.getElementById("cs-message-text");
+    const cursorMessage  = document.getElementById("cs-cursor-message");
+
+    const heartEl       = document.getElementById("cs-heart");
+    const heartText     = document.getElementById("cs-heart-text");
+
+    const buttonsEl     = document.getElementById("cs-buttons");
+    const revisitBtn    = document.getElementById("cs-revisit-btn");
+    const secretBtn     = document.getElementById("cs-secret-btn");
+
+    const secretOverlay = document.getElementById("cs-secret-overlay");
+    const secretTextEl  = document.getElementById("cs-secret-text");
+
+    // ── PHASE 1: typewriter archive text ──────────────────────────────────
+    csTypewriter(archiveText, CS_ARCHIVE_TEXT, 22).then(async () => {
+
+        // Wait a beat then move to phase 2
+        await sleep(4000);
+        cursorArchive.classList.add("cs-cursor--hidden");
+
+        // ── PHASE 2: terminated banner + dim ──────────────────────────────
+        terminated.removeAttribute("aria-hidden");
+        // Slight delay so display kicks in before opacity transition
+        await sleep(50);
+        terminated.classList.add("cs-terminated--visible");
+        dimmer.classList.add("cs-dimmer--active");
+
+        await sleep(3000);
+
+        // ── PHASE 3: glitch + error text ──────────────────────────────────
+        cursorArchive.classList.remove("cs-cursor--hidden");
+        blockArchive.classList.add("cs-glitch");
+        errorBlock.removeAttribute("aria-hidden");
+        await sleep(50);
+        errorBlock.classList.add("cs-error-block--visible");
+
+        // Stop glitch after 2.2 s
+        sleep(2200).then(() => blockArchive.classList.remove("cs-glitch"));
+
+        await csTypewriter(errorText, CS_ERROR_TEXT, 35);
+        cursorError.classList.remove("cs-cursor--hidden");
+        cursorArchive.classList.add("cs-cursor--hidden");
+
+        await sleep(600);
+        cursorError.classList.add("cs-cursor--hidden");
+
+        // ── PHASE 4: recovered personal message ───────────────────────────
+        recoveredBlock.removeAttribute("aria-hidden");
+        await sleep(50);
+        recoveredBlock.classList.add("cs-recovered-block--visible");
+        cursorMessage.classList.remove("cs-cursor--hidden");
+
+        await sleep(400);
+        await csTypewriter(messageText, CS_HIDDEN_MESSAGE, 18);
+
+        await sleep(2000);
+        cursorMessage.classList.add("cs-cursor--hidden");
+
+        // ── PHASE 5: heart ────────────────────────────────────────────────
+        heartEl.removeAttribute("aria-hidden");
+        await sleep(50);
+        heartEl.classList.add("cs-heart--visible");
+
+        // Type heart symbol
+        await sleep(300);
+        await csTypewriter(heartText, CS_HEART, 60);
+
+        await sleep(1000);
+
+        // ── PHASE 6: buttons ──────────────────────────────────────────────
+        buttonsEl.removeAttribute("aria-hidden");
+        await sleep(50);
+        buttonsEl.classList.add("cs-buttons--visible");
+    });
+
+    // ── "Revisit Memories" button ─────────────────────────────────────────
+    revisitBtn.addEventListener("click", async () => {
+        const closingScreen = document.getElementById("closing-screen");
+
+        fadeBlack.classList.add("black");
+        await sleep(BLACK_FADE_MS);
+
+        closingScreen.classList.remove("show-closing");
+        closingScreen.setAttribute("aria-hidden", "true");
+
+        // Reset closing screen state for a possible revisit
+        csResetPhases();
+
+        // Open memories module directly
+        await openArchiveModule(memoriesModule, [
+            "> ACCESSING MEMORIES.EXE",
+            "> LOADING MEMORY RECORDS..."
+        ]);
+
+        const memoriesSubtitleIntroEl = document.getElementById("memories-subtitle-intro");
+        if (memoriesSubtitleIntroEl) {
+            memoriesSubtitleIntroEl.textContent = "";
+            typeSubtitle(memoriesSubtitleIntroEl, "Relive the moments that defined you.");
+        }
+
+        await sleep(RETURN_FADE_MS);
+        fadeBlack.classList.remove("black");
+    });
+
+    // ── "One More Secret" button ──────────────────────────────────────────
+    secretBtn.addEventListener("click", () => {
+        secretTextEl.textContent = CS_SECRET_NOTE;
+        secretOverlay.removeAttribute("aria-hidden");
+        secretOverlay.setAttribute("aria-modal", "true");
+        requestAnimationFrame(() => {
+            secretOverlay.classList.add("cs-secret-overlay--visible");
+        });
+    });
+
+    secretOverlay.addEventListener("click", () => {
+        secretOverlay.classList.remove("cs-secret-overlay--visible");
+        setTimeout(() => {
+            secretOverlay.setAttribute("aria-hidden", "true");
+            secretOverlay.removeAttribute("aria-modal");
+        }, 1200);
+    });
+}
+
+/**
+ * Resets all closing-screen phase elements back to their initial
+ * hidden state so the sequence can replay if the user revisits.
+ */
+function csResetPhases() {
+    const ids = [
+        "cs-cursor-archive", "cs-cursor-error", "cs-cursor-message"
+    ];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("cs-cursor--hidden");
+    });
+
+    const textIds = ["cs-archive-text", "cs-error-text", "cs-message-text", "cs-heart-text"];
+    textIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = "";
+    });
+
+    const dimmer = document.getElementById("cs-dimmer");
+    if (dimmer) dimmer.classList.remove("cs-dimmer--active");
+
+    const terminated = document.getElementById("cs-terminated");
+    if (terminated) {
+        terminated.classList.remove("cs-terminated--visible");
+        terminated.setAttribute("aria-hidden", "true");
+    }
+
+    const errorBlock = document.getElementById("cs-error-block");
+    if (errorBlock) {
+        errorBlock.classList.remove("cs-error-block--visible");
+        errorBlock.setAttribute("aria-hidden", "true");
+    }
+
+    const recoveredBlock = document.getElementById("cs-recovered-block");
+    if (recoveredBlock) {
+        recoveredBlock.classList.remove("cs-recovered-block--visible");
+        recoveredBlock.setAttribute("aria-hidden", "true");
+    }
+
+    const heartEl = document.getElementById("cs-heart");
+    if (heartEl) {
+        heartEl.classList.remove("cs-heart--visible");
+        heartEl.setAttribute("aria-hidden", "true");
+    }
+
+    const buttonsEl = document.getElementById("cs-buttons");
+    if (buttonsEl) {
+        buttonsEl.classList.remove("cs-buttons--visible");
+        buttonsEl.setAttribute("aria-hidden", "true");
+    }
+
+    const secretOverlay = document.getElementById("cs-secret-overlay");
+    if (secretOverlay) {
+        secretOverlay.classList.remove("cs-secret-overlay--visible");
+        secretOverlay.setAttribute("aria-hidden", "true");
+    }
+
+    const blockArchive = document.getElementById("cs-block-archive");
+    if (blockArchive) blockArchive.classList.remove("cs-glitch");
+
+    // Reset viewport scroll
+    const viewport = document.getElementById("cs-viewport");
+    if (viewport) viewport.scrollTop = 0;
+}
 
 
 /* ============================================================
